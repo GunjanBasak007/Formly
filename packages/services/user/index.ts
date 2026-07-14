@@ -76,6 +76,7 @@ class UserService {
         const { email, password } = await signInUserWithEmailAndPasswordInput.parseAsync(payload)
 
         const existingUser = await this.getUserByEmail(email)
+        
         if (!existingUser) throw new Error(`User with email ${email} does not exists`)
 
         if (!existingUser.password || !existingUser.salt) throw new Error(`Invalid authentication method`)

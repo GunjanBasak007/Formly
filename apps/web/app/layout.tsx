@@ -12,9 +12,9 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
 });
 
-export const metadata: Metadata = {
-  title: "Streamyst",
-  description: "Media Forwarding",
+export const metadata : Metadata = {
+  title: "Formly",
+  description: "Create beautiful forms effortlessly.",
 };
 
 export default function RootLayout({
