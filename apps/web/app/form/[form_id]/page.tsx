@@ -15,7 +15,7 @@ type FormField = {
   id: string;
   label: string;
   labelKey: string;
-  type: FieldType;
+  type: FieldType; 
   description?: string | null;
   placeholder?: string | null;
   isRequired: boolean;

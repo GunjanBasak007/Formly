@@ -1,4 +1,4 @@
-import { db, eq, asc } from '@repo/database'
+import { db, eq, asc, sql } from '@repo/database'
 import { formsTable } from '@repo/database/models/form'
 import { formFieldsTable } from '@repo/database/models/form-field'
 import { type CreateFormInputType, createFormInput, type ListFormsByUserIdInputType, listFormsByUserIdInput, type GetFormByIdInputType, getFormByIdInput } from './model'
@@ -33,12 +33,19 @@ class FormService {
 
     public async getFormById(payload: GetFormByIdInputType) {
         const { formId } = await getFormByIdInput.parseAsync(payload)
+        await db
+        .update(formsTable)
+        .set({
+            views: sql`${formsTable.views} + 1`,
+        })
+        .where(eq(formsTable.id, formId));
 
         const rows = await db
             .select({
                 id: formsTable.id,
                 title: formsTable.title,
                 description: formsTable.description,
+                views: formsTable.views,
                 createdAt: formsTable.createdAt,
                 updatedAt: formsTable.updatedAt,
                 field: {
@@ -59,12 +66,12 @@ class FormService {
 
         if (rows.length === 0) return null
 
-        const { id, title, description, createdAt, updatedAt } = rows[0]!
+        const { id, title, description, views, createdAt, updatedAt } = rows[0]!
         const fields = rows
             .filter(r => r.field?.id !== null)
             .map(r => r.field as NonNullable<typeof r.field>)
 
-        return { id, title, description, createdAt, updatedAt, fields }
+        return { id, title, description, views, createdAt, updatedAt, fields }
     }
 
 }
