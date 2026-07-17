@@ -5,7 +5,7 @@ import {
     timestamp,
     boolean,
     text,
-    integer
+    integer,
 } from "drizzle-orm/pg-core";
 import { usersTable } from "./user";
 
@@ -18,7 +18,7 @@ export const formsTable = pgTable("forms", {
     description: varchar('description', { length: 300 }),
 
     createdBy: uuid('created_by').references(() => usersTable.id),
-
+    isPublished: boolean("is_published").default(false).notNull(),
     views: integer("views").default(0).notNull(),
     
 

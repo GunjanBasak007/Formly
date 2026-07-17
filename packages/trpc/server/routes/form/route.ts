@@ -9,6 +9,7 @@ import {
     deleteFieldInputModel, deleteFieldOutputModel,
     getFieldsInputModel, getFieldsOutputModel,
     getFormInputModel, getFormOutputModel,
+    updatePublishStatusInputModel, updatePublishStatusOutputModel,
     submitFormInputModel, submitFormOutputModel,
     getFormSubmissionsInputModel, getFormSubmissionsOutputModel,
 } from "./model";
@@ -123,7 +124,19 @@ export const formRouter = router({
         .query(async ({ input }) => {
             return formService.getFormById({ formId: input.formId })
         }),
-
+    updatePublishStatus: authenticatedProcedure.meta({
+        openapi: {
+            method: 'POST',
+            path: getPath('/updatePublishStatus'),
+            tags: TAGS,
+            protect: true,
+        }
+    })
+    .input(updatePublishStatusInputModel)
+    .output(updatePublishStatusOutputModel)
+    .mutation(async ({ input }) => {
+        return formService.updatePublishStatus(input)
+    }),
     submitForm: publicProcedure.meta({
         openapi: {
             method: 'POST',

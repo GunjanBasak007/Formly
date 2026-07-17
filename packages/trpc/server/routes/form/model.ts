@@ -14,6 +14,7 @@ export const listFormsOutputModel = z.array(
         id: z.string().describe('ID of the form'),
         title: z.string().describe('Title of the form'),
         description: z.string().nullable().optional().describe('Description of the form'),
+        isPublished: z.boolean().describe('Publish status of the form'),
         createdAt: z.date().nullable().describe('Creation timestamp'),
         updatedAt: z.date().nullable().describe('Last updated timestamp'),
     })
@@ -79,10 +80,22 @@ export const getFormInputModel = z.object({
     formId: z.string().uuid().describe('UUID of the form'),
 })
 
+export const updatePublishStatusInputModel = z.object({
+    formId: z.string().uuid().describe("UUID of the form"),
+    isPublished: z.boolean().describe("Publish status"),
+})
+
+export const updatePublishStatusOutputModel = z.object({
+    success: z.boolean(),
+    message: z.string(),
+})
+
 export const getFormOutputModel = z.object({
     id: z.string(),
     title: z.string(),
     description: z.string().nullable().optional(),
+    views: z.number(),
+    isPublished: z.boolean(),
     createdAt: z.date().nullable(),
     updatedAt: z.date().nullable(),
     fields: z.array(formFieldObject),

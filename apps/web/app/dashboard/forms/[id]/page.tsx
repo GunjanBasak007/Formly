@@ -24,7 +24,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { useGetFields, useCreateField, useUpdateField, useDeleteField } from "~/hooks/api/form";
+
+import { useGetFields, useCreateField, useUpdateField, useDeleteField, useGetForm,
+  useUpdatePublishStatus, } from "~/hooks/api/form";
 
 const FIELD_TYPES = ["TEXT", "NUMBER", "EMAIL", "YES_NO", "PASSWORD"] as const;
 type FieldType = (typeof FIELD_TYPES)[number];
@@ -172,6 +174,9 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
   // TODO: Debug this line
   const { id: formId } = use(params);
 
+  const { form } = useGetForm(formId);
+  const { updatePublishStatusAsync } = useUpdatePublishStatus();
+
   const { fields, isLoading } = useGetFields(formId);
   const { createFieldAsync, isError: isCreateError, error: createError } = useCreateField(formId);
   const { updateFieldAsync } = useUpdateField(formId);
@@ -209,15 +214,44 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
     await deleteFieldAsync({ fieldId });
   };
 
+  const handlePublish = async () => {
+  if (!form) return;
+
+  await updatePublishStatusAsync({
+    formId,
+    isPublished: !form.isPublished,
+  });
+};
   return (
     <div className="p-6 flex flex-col gap-6 max-w-2xl">
       <div className="flex items-center justify-between">
+      <div>
         <h1 className="text-2xl font-bold">Form Builder</h1>
-        <Button onClick={() => setCreateOpen(true)}>
-          <PlusIcon className="size-4" />
-          Add Field
-        </Button>
-      </div>
+
+          {form && (
+            <Badge
+             variant={form.isPublished ? "default" : "secondary"}
+            className="mt-2"
+          >
+          {form.isPublished ? "Published" : "Draft"}
+      </Badge>
+    )}
+</div>
+
+  <div className="flex gap-2">
+    <Button
+      variant={form?.isPublished ? "destructive" : "default"}
+      onClick={handlePublish}
+    >
+      {form?.isPublished ? "Unpublish" : "Publish"}
+    </Button>
+
+    <Button onClick={() => setCreateOpen(true)}>
+      <PlusIcon className="size-4" />
+      Add Field
+    </Button>
+  </div>
+</div>
 
       <div className="flex flex-col gap-3">
         {isLoading ? (

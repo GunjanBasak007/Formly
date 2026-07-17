@@ -18,4 +18,14 @@ export const getFormByIdInput = z.object({
     formId: z.string().uuid().describe('UUID of the form'),
 })
 
+export const updatePublishStatusInput = z.object({
+    formId: z.string().uuid().describe("UUID of the form"),
+    isPublished: z.boolean().describe("Publish status"),
+})
+
+export type UpdatePublishStatusInputType = z.infer<
+    typeof updatePublishStatusInput
+>
+
 export type GetFormByIdInputType = z.infer<typeof getFormByIdInput>
+

@@ -43,6 +43,13 @@
       "when": 1784275650423,
       "tag": "0005_tidy_wiccan",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1784282597944,
+      "tag": "0006_early_azazel",
+      "breakpoints": true
     }
   ]
 }

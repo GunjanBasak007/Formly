@@ -162,6 +162,36 @@ export const useGetForm = (formId: string) => {
     }
 }
 
+export const useUpdatePublishStatus = () => {
+    const utils = trpc.useUtils()
+
+    const {
+        mutateAsync: updatePublishStatusAsync,
+        mutate: updatePublishStatus,
+        error,
+        failureCount,
+        isError,
+        isIdle,
+        isSuccess,
+        status,
+    } = trpc.form.updatePublishStatus.useMutation({
+        onSuccess: async () => {
+            await utils.form.invalidate()
+        },
+    })
+
+    return {
+        updatePublishStatusAsync,
+        updatePublishStatus,
+        error,
+        failureCount,
+        isError,
+        isIdle,
+        isSuccess,
+        status,
+    }
+}
+
 export const useGetFormSubmissions = (formId: string) => {
     const { data: submissions, error, isFetched, isFetching, isLoading, status } =
         trpc.form.getFormSubmissions.useQuery({ formId })

@@ -1,7 +1,15 @@
 import { db, eq, asc, sql } from '@repo/database'
 import { formsTable } from '@repo/database/models/form'
 import { formFieldsTable } from '@repo/database/models/form-field'
-import { type CreateFormInputType, createFormInput, type ListFormsByUserIdInputType, listFormsByUserIdInput, type GetFormByIdInputType, getFormByIdInput } from './model'
+import { type CreateFormInputType,
+        createFormInput,
+        type ListFormsByUserIdInputType,
+        listFormsByUserIdInput,
+        type GetFormByIdInputType,
+        getFormByIdInput,
+        type UpdatePublishStatusInputType,
+        updatePublishStatusInput
+     } from './model'
 
 class FormService {
 
@@ -24,6 +32,7 @@ class FormService {
             id: formsTable.id,
             title: formsTable.title,
             description: formsTable.description,
+            isPublished: formsTable.isPublished,
             createdAt: formsTable.createdAt,
             updatedAt: formsTable.updatedAt,
         }).from(formsTable).where(eq(formsTable.createdBy, userId))
@@ -42,12 +51,13 @@ class FormService {
 
         const rows = await db
             .select({
-                id: formsTable.id,
-                title: formsTable.title,
-                description: formsTable.description,
-                views: formsTable.views,
-                createdAt: formsTable.createdAt,
-                updatedAt: formsTable.updatedAt,
+                    id: formsTable.id,
+                    title: formsTable.title,
+                    description: formsTable.description,
+                    views: formsTable.views,
+                    isPublished: formsTable.isPublished,
+                    createdAt: formsTable.createdAt,
+                    updatedAt: formsTable.updatedAt,
                 field: {
                     id: formFieldsTable.id,
                     label: formFieldsTable.label,
@@ -66,14 +76,50 @@ class FormService {
 
         if (rows.length === 0) return null
 
-        const { id, title, description, views, createdAt, updatedAt } = rows[0]!
+        const {
+            id,
+            title,
+            description,
+            views,
+            isPublished,
+            createdAt,
+            updatedAt,
+        } = rows[0]!
+
         const fields = rows
             .filter(r => r.field?.id !== null)
             .map(r => r.field as NonNullable<typeof r.field>)
 
-        return { id, title, description, views, createdAt, updatedAt, fields }
+        return { id, title, description, views, isPublished, createdAt, updatedAt, fields }
     }
 
+    public async updatePublishStatus(
+        payload: UpdatePublishStatusInputType
+    ) {
+        const { formId, isPublished } =
+        await updatePublishStatusInput.parseAsync(payload);
+
+        const result = await db
+        .update(formsTable)
+        .set({
+        isPublished,
+    })
+        .where(eq(formsTable.id, formId))
+        .returning({
+        id: formsTable.id,
+    });
+
+        if (result.length === 0) {
+        throw new Error("Form not found");
+    }
+
+        return {
+            success: true,
+            message: isPublished
+            ? "Form published successfully"
+            : "Form unpublished successfully",
+  };
+}
 }
 
 export default FormService
