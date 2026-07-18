@@ -12,6 +12,7 @@ import {
     updatePublishStatusInputModel, updatePublishStatusOutputModel,
     submitFormInputModel, submitFormOutputModel,
     getFormSubmissionsInputModel, getFormSubmissionsOutputModel,
+    updateFieldOrderInputModel,updateFieldOrderOutputModel,
 } from "./model";
 
 const TAGS = ["Form"];
@@ -111,6 +112,23 @@ export const formRouter = router({
         .mutation(async ({ input }) => {
             return formFieldService.deleteField(input)
         }),
+
+
+    updateFieldOrder: authenticatedProcedure
+  .meta({
+    openapi: {
+      method: "POST",
+      path: getPath("/updateFieldOrder"),
+      tags: TAGS,
+      protect: true,
+    },
+  })
+  .input(updateFieldOrderInputModel)
+  .output(updateFieldOrderOutputModel)
+  .mutation(async ({ input }) => {
+    return formFieldService.updateFieldOrder(input);
+  }),
+
 
     getForm: publicProcedure.meta({
         openapi: {

@@ -1,0 +1,1 @@
+ALTER TABLE "form_fields" ALTER COLUMN "index" SET DATA TYPE integer;

@@ -31,7 +31,7 @@ const formFieldObject = z.object({
     description: z.string().nullable().optional(),
     placeholder: z.string().nullable().optional(),
     isRequired: z.boolean(),
-    index: z.string().describe('Fractional index for ordering'),
+    index: z.number().describe('Order of the field in the form'),
 })
 
 export const createFieldInputModel = z.object({
@@ -46,7 +46,7 @@ export const createFieldInputModel = z.object({
 export const createFieldOutputModel = z.object({
     id: z.string(),
     labelKey: z.string(),
-    index: z.string(),
+    index: z.number(),
 })
 
 export const updateFieldInputModel = z.object({
@@ -127,3 +127,17 @@ export const getFormSubmissionsOutputModel = z.array(
         })).nullable(),
     })
 )
+
+
+export const updateFieldOrderItemInputModel = z.object({
+  id: z.string().uuid(),
+  index: z.number().int().nonnegative(),
+});
+
+export const updateFieldOrderInputModel = z.object({
+  fields: z.array(updateFieldOrderItemInputModel),
+});
+
+export const updateFieldOrderOutputModel = z.object({
+  success: z.boolean(),
+});

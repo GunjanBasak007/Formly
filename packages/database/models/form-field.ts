@@ -5,9 +5,9 @@ import {
     timestamp,
     boolean,
     text,
-    numeric,
     pgEnum,
-    unique
+    unique,
+    integer
 } from "drizzle-orm/pg-core";
 import { usersTable } from "./user";
 import { formsTable } from "./form";
@@ -27,7 +27,7 @@ export const formFieldsTable = pgTable("form_fields", {
 
     isRequired: boolean('is_required').default(false).notNull(),
 
-    index: numeric('index', { scale: 2 }).notNull(),
+    index: integer("index").default(0).notNull(),
 
     type: fieldTypeEnum('type').notNull(),
 

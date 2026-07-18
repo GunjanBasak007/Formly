@@ -24,7 +24,7 @@ export default function SubmissionsPage({ params }: { params: Promise<{ id: stri
   const isLoading = fieldsLoading || submissionsLoading;
 
   const sortedFields = [...(fields ?? [])].sort(
-    (a, b) => parseFloat(a.index) - parseFloat(b.index)
+    (a, b) => a.index - b.index
   );
 
   return (

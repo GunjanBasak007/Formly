@@ -1,8 +1,9 @@
 "use client";
+import { SortableFieldCard } from "~/components/form-builder/SortableFieldCard";
 
 import { use, useEffect, useState } from "react";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
-import { PlusIcon, PencilIcon, Trash2Icon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { Checkbox } from "~/components/ui/checkbox";
@@ -26,7 +27,20 @@ import {
 } from "~/components/ui/select";
 
 import { useGetFields, useCreateField, useUpdateField, useDeleteField, useGetForm,
-  useUpdatePublishStatus, } from "~/hooks/api/form";
+  useUpdatePublishStatus, useUpdateFieldOrder, } from "~/hooks/api/form";
+
+import {
+  DndContext,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+
+import type { FieldRow } from "~/components/form-builder/types";
 
 const FIELD_TYPES = ["TEXT", "NUMBER", "EMAIL", "YES_NO", "PASSWORD"] as const;
 type FieldType = (typeof FIELD_TYPES)[number];
@@ -47,16 +61,7 @@ type FieldFormValues = {
   isRequired: boolean;
 };
 
-type FieldRow = {
-  id: string;
-  label: string;
-  labelKey: string;
-  type: FieldType;
-  description?: string | null;
-  placeholder?: string | null;
-  isRequired: boolean;
-  index: string;
-};
+
 
 const DEFAULT_VALUES: FieldFormValues = {
   label: "",
@@ -181,9 +186,18 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
   const { createFieldAsync, isError: isCreateError, error: createError } = useCreateField(formId);
   const { updateFieldAsync } = useUpdateField(formId);
   const { deleteFieldAsync } = useDeleteField(formId);
+  const { updateFieldOrderAsync } = useUpdateFieldOrder(formId);
 
   const [createOpen, setCreateOpen] = useState(false);
   const [editingField, setEditingField] = useState<FieldRow | null>(null);
+  const [orderedFields, setOrderedFields] = useState<FieldRow[]>([]);
+
+  useEffect(() => {
+      if (fields) {
+        setOrderedFields(fields as FieldRow[]);
+    }
+  }, [fields]);
+
 
   const handleCreate: SubmitHandler<FieldFormValues> = async (values) => {
     await createFieldAsync({
@@ -222,6 +236,39 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
     isPublished: !form.isPublished,
   });
 };
+
+const handleDragEnd = async (event: DragEndEvent) => {
+  const { active, over } = event;
+
+  if (!over) return;
+
+  if (active.id === over.id) return;
+
+  const oldIndex = orderedFields.findIndex(
+    (field) => field.id === active.id,
+  );
+
+  const newIndex = orderedFields.findIndex(
+    (field) => field.id === over.id,
+  );
+
+  const reorderedFields = arrayMove(
+    orderedFields,
+    oldIndex,
+    newIndex,
+  );
+
+  // Update the UI immediately
+  setOrderedFields(reorderedFields);
+
+  // Save the new order in the database
+  await updateFieldOrderAsync({
+    fields: reorderedFields.map((field, index) => ({
+      id: field.id,
+      index,
+    })),
+  });
+};
   return (
     <div className="p-6 flex flex-col gap-6 max-w-2xl">
       <div className="flex items-center justify-between">
@@ -253,62 +300,33 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
   </div>
 </div>
 
-      <div className="flex flex-col gap-3">
-        {isLoading ? (
-          <p className="text-sm text-muted-foreground">Loading fields...</p>
-        ) : !fields || fields.length === 0 ? (
-          <div className="rounded-lg border border-dashed p-10 text-center text-sm text-muted-foreground">
-            No fields yet. Add your first field.
-          </div>
-        ) : (
-          fields.map((field) => (
-            <div
-              key={field.id}
-              className="flex items-start justify-between gap-4 rounded-lg border bg-card p-4"
-            >
-              <div className="flex flex-col gap-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-medium text-sm">{field.label}</span>
-                  <Badge variant="outline" className="text-xs">
-                    {FIELD_TYPE_LABELS[field.type as FieldType]}
-                  </Badge>
-                  {field.isRequired && (
-                    <Badge variant="secondary" className="text-xs">
-                      Required
-                    </Badge>
-                  )}
-                </div>
-                {field.description && (
-                  <p className="text-xs text-muted-foreground truncate">{field.description}</p>
-                )}
-                <p className="text-xs text-muted-foreground/60 font-mono">{field.labelKey}</p>
-              </div>
-
-              <div className="flex items-center gap-1 shrink-0">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setEditingField(field as FieldRow)}
-                >
-                  <PencilIcon className="size-4" />
-                  <span className="sr-only">Edit {field.label}</span>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-destructive hover:text-destructive"
-                  onClick={() => handleDelete(field.id)}
-                >
-                  <Trash2Icon className="size-4" />
-                  <span className="sr-only">Delete {field.label}</span>
-                </Button>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-
-      {/* Create field modal */}
+<DndContext onDragEnd={handleDragEnd}>
+  <SortableContext
+    items={orderedFields.map((field) => field.id)}
+    strategy={verticalListSortingStrategy}
+  >
+    <div className="flex flex-col gap-3">
+      {isLoading ? (
+        <p className="text-sm text-muted-foreground">
+          Loading fields...
+        </p>
+      ) : !orderedFields.length ? (
+        <div className="rounded-lg border border-dashed p-10 text-center text-sm text-muted-foreground">
+          No fields yet. Add your first field.
+        </div>
+      ) : (
+      orderedFields.map((field) => (
+          <SortableFieldCard
+            key={field.id}
+            field={field}
+            onEdit={setEditingField}
+            onDelete={handleDelete}
+        />
+      ))
+  )}
+    </div>
+  </SortableContext>
+</DndContext>
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent>
           <DialogHeader>

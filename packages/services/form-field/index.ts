@@ -5,6 +5,7 @@ import {
     type UpdateFieldInputType, updateFieldInput,
     type DeleteFieldInputType, deleteFieldInput,
     type GetFieldsInputType, getFieldsInput,
+    type UpdateFieldOrderInputType, updateFieldOrderInput
 } from './model'
 
 function toLabelKey(label: string): string {
@@ -17,15 +18,17 @@ function toLabelKey(label: string): string {
 
 class FormFieldService {
 
-    private async getNextIndex(formId: string): Promise<string> {
+    private async getNextIndex(formId: string): Promise<number>  {
         const result = await db
             .select({ maxIndex: max(formFieldsTable.index) })
             .from(formFieldsTable)
             .where(eq(formFieldsTable.formId, formId))
 
         const current = result[0]?.maxIndex
-        const next = current ? parseFloat(current) + 1 : 1
-        return next.toFixed(2)
+        const next = current !== null && current !== undefined
+            ? current + 1
+            : 1;
+        return next;
     }
 
     public async createField(payload: CreateFieldInputType) {
@@ -68,6 +71,28 @@ class FormFieldService {
 
         return { id: result[0]!.id }
     }
+
+    public async updateFieldOrder(
+    payload: UpdateFieldOrderInputType,
+) {
+    const { fields } =
+        await updateFieldOrderInput.parseAsync(payload);
+
+    await db.transaction(async (tx) => {
+        for (const field of fields) {
+            await tx
+                .update(formFieldsTable)
+                .set({
+                    index: field.index,
+                })
+                .where(eq(formFieldsTable.id, field.id));
+        }
+    });
+
+    return {
+        success: true,
+    };
+}
 
     public async getFields(payload: GetFieldsInputType) {
         const { formId } = await getFieldsInput.parseAsync(payload)

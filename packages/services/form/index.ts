@@ -8,7 +8,9 @@ import { type CreateFormInputType,
         type GetFormByIdInputType,
         getFormByIdInput,
         type UpdatePublishStatusInputType,
-        updatePublishStatusInput
+        updatePublishStatusInput,
+        UpdateFieldOrderInputType,
+        updateFieldOrderInput
      } from './model'
 
 class FormService {
@@ -135,6 +137,20 @@ class FormService {
 
             return form;
         }
+
+        public async updateFieldOrder(
+        payload: UpdateFieldOrderInputType
+        ) {
+        const { fields } = await updateFieldOrderInput.parseAsync(payload);
+        await db.transaction(async (tx) => {
+            for (const field of fields) {
+                await tx
+                .update(formFieldsTable)
+                .set({ index: field.index })
+                .where(eq(formFieldsTable.id, field.id));
+            }   
+        });
+    }
 }
 
 export default FormService

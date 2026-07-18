@@ -19,7 +19,7 @@ type FormField = {
   description?: string | null;
   placeholder?: string | null;
   isRequired: boolean;
-  index: string;
+  index: number;
 };
 
 function FormFieldInput({
@@ -149,7 +149,7 @@ export default function PublicFormPage({ params }: { params: Promise<{ form_id: 
   }
 
   const sortedFields = [...(form.fields ?? [])].sort(
-    (a, b) => parseFloat(a.index) - parseFloat(b.index)
+    (a, b) => a.index - b.index
   );
 
   return (

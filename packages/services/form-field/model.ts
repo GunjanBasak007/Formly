@@ -35,3 +35,15 @@ export const deleteFieldInput = z.object({
 })
 
 export type DeleteFieldInputType = z.infer<typeof deleteFieldInput>
+
+export const updateFieldOrderItemInput = z.object({
+  id: z.string().uuid(),
+  index: z.number().int().nonnegative(),
+});
+
+export const updateFieldOrderInput = z.object({
+  fields: z.array(updateFieldOrderItemInput),
+});
+
+export type UpdateFieldOrderInputType =
+  z.infer<typeof updateFieldOrderInput>;

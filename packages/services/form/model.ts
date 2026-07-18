@@ -29,3 +29,15 @@ export type UpdatePublishStatusInputType = z.infer<
 
 export type GetFormByIdInputType = z.infer<typeof getFormByIdInput>
 
+
+// Drag & Drop Features
+export const updateFieldOrderItemInput = z.object({
+    id: z.string().uuid().describe("UUID of the field"),
+    index: z.number().int().nonnegative().describe("New position of the field"),
+});
+
+export const updateFieldOrderInput = z.object({
+    fields: z.array(updateFieldOrderItemInput),
+});
+
+export type UpdateFieldOrderInputType = z.infer<typeof updateFieldOrderInput>;

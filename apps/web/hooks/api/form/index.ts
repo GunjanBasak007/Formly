@@ -252,3 +252,33 @@ export const useGetPublishedForm = (formId: string) => {
         status,
     };
 };
+
+export const useUpdateFieldOrder = (formId: string) => {
+  const utils = trpc.useUtils();
+
+  const {
+    mutateAsync: updateFieldOrderAsync,
+    mutate: updateFieldOrder,
+    error,
+    failureCount,
+    isError,
+    isIdle,
+    isSuccess,
+    status,
+  } = trpc.form.updateFieldOrder.useMutation({
+    onSuccess: async () => {
+      await utils.form.getFields.invalidate({ formId });
+    },
+  });
+
+  return {
+    updateFieldOrderAsync,
+    updateFieldOrder,
+    error,
+    failureCount,
+    isError,
+    isIdle,
+    isSuccess,
+    status,
+  };
+};
