@@ -90,6 +90,22 @@ export const updatePublishStatusOutputModel = z.object({
     message: z.string(),
 })
 
+
+//For updating field order
+
+export const updateFieldOrderItemInputModel = z.object({
+  id: z.string().uuid(),
+  index: z.number().int().nonnegative(),
+});
+
+export const updateFieldOrderInputModel = z.object({
+  fields: z.array(updateFieldOrderItemInputModel),
+});
+
+export const updateFieldOrderOutputModel = z.object({
+  success: z.boolean(),
+});
+
 export const getFormOutputModel = z.object({
     id: z.string(),
     title: z.string(),
@@ -129,15 +145,12 @@ export const getFormSubmissionsOutputModel = z.array(
 )
 
 
-export const updateFieldOrderItemInputModel = z.object({
-  id: z.string().uuid(),
-  index: z.number().int().nonnegative(),
+
+//For deleteing form
+export const deleteFormInputModel = z.object({
+  formId: z.string().uuid(),
 });
 
-export const updateFieldOrderInputModel = z.object({
-  fields: z.array(updateFieldOrderItemInputModel),
-});
-
-export const updateFieldOrderOutputModel = z.object({
+export const deleteFormOutputModel = z.object({
   success: z.boolean(),
 });

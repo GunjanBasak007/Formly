@@ -3,14 +3,20 @@ import { formsTable } from '@repo/database/models/form'
 import { formFieldsTable } from '@repo/database/models/form-field'
 import { type CreateFormInputType,
         createFormInput,
+
         type ListFormsByUserIdInputType,
         listFormsByUserIdInput,
+
         type GetFormByIdInputType,
         getFormByIdInput,
+
         type UpdatePublishStatusInputType,
         updatePublishStatusInput,
         UpdateFieldOrderInputType,
-        updateFieldOrderInput
+        updateFieldOrderInput,
+
+        type DeleteFormInputType,
+        deleteFormInput,
      } from './model'
 
 class FormService {
@@ -150,6 +156,25 @@ class FormService {
                 .where(eq(formFieldsTable.id, field.id));
             }   
         });
+        return{success: true};
+    }
+
+
+    public async deleteForm(payload: DeleteFormInputType) {
+        const { formId } = await deleteFormInput.parseAsync(payload);
+
+        const result = await db
+            .delete(formsTable)
+            .where(eq(formsTable.id, formId))
+            .returning({ id: formsTable.id });
+
+        if (result.length === 0) {
+            throw new Error("Form not found");
+        }
+
+        return {
+            success: true,
+        };
     }
 }
 

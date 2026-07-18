@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import Link from "next/link";
-import { PencilIcon } from "lucide-react";
+import {
+  MoreHorizontal,
+  PencilIcon,
+  Trash2,
+} from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -23,7 +27,15 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { useCreateForm, useListForms } from "~/hooks/api/form";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+
+import { useCreateForm, useListForms,useDeleteForm } from "~/hooks/api/form";
 
 type CreateFormValues = {
   title: string;
@@ -32,7 +44,13 @@ type CreateFormValues = {
 
 export default function FormsPage() {
   const [open, setOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [selectedForm, setSelectedForm] = useState<{
+        id: string;
+        title: string;
+    } | null>(null);
   const { createFormAsync, isError, error } = useCreateForm();
+  const { deleteFormAsync } = useDeleteForm();
   const { forms, isLoading } = useListForms();
 
   const {
@@ -94,13 +112,41 @@ export default function FormsPage() {
                     {form.createdAt ? new Date(form.createdAt).toLocaleDateString() : "—"}
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="icon" asChild>
-                      <Link href={`/dashboard/forms/${form.id}`}>
-                        <PencilIcon className="size-4" />
-                        <span className="sr-only">Edit {form.title}</span>
-                      </Link>
-                    </Button>
-                  </TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MoreHorizontal className="size-4" />
+                              <span className="sr-only">Open menu</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                                    onSelect={(e) => e.preventDefault()}
+                                      asChild
+                                  >
+                                    <Link href={`/dashboard/forms/${form.id}`}>
+                                      <PencilIcon className="mr-2 h-4 w-4" />
+                                      Edit
+                                    </Link>
+                                  </DropdownMenuItem>
+                                  
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  setSelectedForm({
+                                    id: form.id,
+                                    title: form.title,
+                                  });
+                                  setDeleteOpen(true);
+                                }}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+
+                        </DropdownMenu>
+                      </TableCell>
                 </TableRow>
               ))
             )}
@@ -152,6 +198,54 @@ export default function FormsPage() {
           </form>
         </DialogContent>
       </Dialog>
+
+
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Delete Form</DialogTitle>
+                </DialogHeader>
+
+                <p className="text-sm text-muted-foreground">
+                  Are you sure you want to delete{" "}
+                  <span className="font-semibold">
+                    {selectedForm?.title}
+                  </span>
+                  ?
+                  <br />
+                  This action cannot be undone. All fields and responses
+                  will be permanently deleted.
+                </p>
+
+                <DialogFooter>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setDeleteOpen(false);
+                      setSelectedForm(null);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button
+                    variant="destructive"
+                    onClick={async () => {
+                      if (!selectedForm) return;
+
+                      await deleteFormAsync({
+                        formId: selectedForm.id,
+                      });
+
+                      setDeleteOpen(false);
+                      setSelectedForm(null);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </DialogFooter>
+                </DialogContent>
+              </Dialog>
     </div>
   );
 }

@@ -31,7 +31,9 @@ export const formFieldsTable = pgTable("form_fields", {
 
     type: fieldTypeEnum('type').notNull(),
 
-    formId: uuid('form_id').references(() => formsTable.id),
+    formId: uuid('form_id').references(() => formsTable.id,{
+        onDelete: "cascade",
+    }),
 
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),

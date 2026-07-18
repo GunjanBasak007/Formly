@@ -13,6 +13,7 @@ import {
     submitFormInputModel, submitFormOutputModel,
     getFormSubmissionsInputModel, getFormSubmissionsOutputModel,
     updateFieldOrderInputModel,updateFieldOrderOutputModel,
+    deleteFormInputModel,deleteFormOutputModel,
 } from "./model";
 
 const TAGS = ["Form"];
@@ -197,4 +198,19 @@ export const formRouter = router({
             formId: input.formId,
         });
     }),
+
+    //Delete entire form
+    deleteForm: authenticatedProcedure.meta({
+        openapi:{
+            method : "DELETE",
+            path : getPath("delete"),
+            tags : TAGS,
+            protect : true,
+        }
+    })
+    .input(deleteFormInputModel)
+    .output(deleteFormOutputModel)
+    .mutation(async ({ input }) => {
+        return formService.deleteForm(input);
+    })
 })
