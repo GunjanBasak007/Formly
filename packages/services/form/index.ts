@@ -120,6 +120,21 @@ class FormService {
             : "Form unpublished successfully",
   };
 }
+        public async getPublishedFormById(
+            payload: GetFormByIdInputType
+        ) {
+            const form = await this.getFormById(payload);
+
+            if (!form) {
+                return null;
+            }
+
+            if (!form.isPublished) {
+                return null;
+            }
+
+            return form;
+        }
 }
 
 export default FormService

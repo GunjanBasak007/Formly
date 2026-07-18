@@ -229,3 +229,26 @@ export const useSubmitForm = () => {
         status,
     }
 }
+
+
+export const useGetPublishedForm = (formId: string) => {
+    const {
+        data: form,
+        error,
+        isFetched,
+        isFetching,
+        isLoading,
+        status,
+    } = trpc.form.getPublishedForm.useQuery({
+        formId,
+    });
+
+    return {
+        form,
+        error,
+        isFetched,
+        isFetching,
+        isLoading,
+        status,
+    };
+};

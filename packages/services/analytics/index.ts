@@ -29,6 +29,30 @@ export const analyticsService = {
 
   const totalViews = Number(viewsResult[0]?.totalViews ?? 0);
 
+  // Published forms
+const publishedCount = await db
+  .select({
+    total: count(),
+  })
+  .from(formsTable)
+  .where(
+    sql`${formsTable.createdBy} = ${userId} AND ${formsTable.isPublished} = true`
+  );
+
+const publishedForms = publishedCount[0]?.total ?? 0;
+
+// Draft forms
+const draftCount = await db
+  .select({
+    total: count(),
+  })
+  .from(formsTable)
+  .where(
+    sql`${formsTable.createdBy} = ${userId} AND ${formsTable.isPublished} = false`
+  );
+
+const draftForms = draftCount[0]?.total ?? 0;
+
     // Total submissions received on this user's forms
     const responsesCount = await db
       .select({
@@ -50,8 +74,8 @@ export const analyticsService = {
 
       return {
       totalForms,
-      publishedForms: 0,
-      draftForms: 0,
+      publishedForms,
+      draftForms,
       totalResponses,
       totalViews,
       responseRate,

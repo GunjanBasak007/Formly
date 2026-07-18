@@ -7,7 +7,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Field, FieldGroup, FieldLabel, FieldDescription, FieldError } from "~/components/ui/field";
-import { useGetForm, useSubmitForm } from "~/hooks/api/form";
+import { useGetPublishedForm, useSubmitForm } from "~/hooks/api/form";
 
 type FieldType = "TEXT" | "NUMBER" | "EMAIL" | "YES_NO" | "PASSWORD";
 
@@ -94,7 +94,7 @@ function FormFieldInput({
 
 export default function PublicFormPage({ params }: { params: Promise<{ form_id: string }> }) {
   const { form_id: formId } = use(params);
-  const { form, isLoading } = useGetForm(formId);
+  const { form, isLoading } = useGetPublishedForm(formId);
   const { submitFormAsync } = useSubmitForm();
   const [submitted, setSubmitted] = useState(false);
 
@@ -131,7 +131,7 @@ export default function PublicFormPage({ params }: { params: Promise<{ form_id: 
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-2">
           <h1 className="text-xl font-semibold">Form not found</h1>
-          <p className="text-sm text-muted-foreground">This form doesn't exist or has been removed.</p>
+          <p className="text-sm text-muted-foreground">This form does not exist or has been removed.</p>
         </div>
       </div>
     );

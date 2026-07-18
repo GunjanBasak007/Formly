@@ -163,4 +163,20 @@ export const formRouter = router({
         .query(async ({ input }) => {
             return formSubmissionService.getFormSubmissions({ formId: input.formId })
         }),
+
+    getPublishedForm: publicProcedure
+    .meta({
+        openapi: {
+            method: "GET",
+            path: getPath("/getPublishedForm"),
+            tags: TAGS,
+        },
+    })
+    .input(getFormInputModel)
+    .output(getFormOutputModel.nullable())
+    .query(async ({ input }) => {
+        return formService.getPublishedFormById({
+            formId: input.formId,
+        });
+    }),
 })
