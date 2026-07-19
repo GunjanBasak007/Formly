@@ -3,25 +3,12 @@ import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
 import {
-  IconCamera,
   IconChartBar,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
   IconSettings,
-  IconUsers,
   IconClipboardText,
 } from "@tabler/icons-react";
 
-import { NavDocuments } from "~/components/nav-documents";
 import { NavMain } from "~/components/nav-main";
 import { NavSecondary } from "~/components/nav-secondary";
 import { NavUser } from "~/components/nav-user";
@@ -52,40 +39,52 @@ const data = {
       url: "/dashboard/forms",
       icon: IconClipboardText,
     },
+
+    {
+      title: "Analytics",
+      url: "/dashboard/analytics",
+      icon: IconChartBar,
+    },
+ 
   ],
-  navClouds: [],
+
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "/dashboard/settings",
       icon: IconSettings,
     },
   ],
-  documents: [],
 };
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="pb-5">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
+                asChild
+                className="h-auto py-4 data-[slot=sidebar-menu-button]:p-3!"
             >
-              <Link href="/" className="flex items-center gap-3">
+              <Link href="/" className="flex items-center gap-3 w-full">
                <Image
                   src="/formly.png"
                   alt="Formly Logo"
-                  width={32}
-                  height={32}
+                  width={38}
+                  height={38}
                 />
 
-                <span className="text-lg font-bold tracking-tight">
-                  Formly
-                </span>
+               <div className="flex flex-col justify-center">
+                    <span className="text-xl font-bold tracking-tight">
+                      Formly
+                    </span>
+
+                    <span className="text-xs text-muted-foreground">
+                      Build forms effortlessly
+                    </span>
+                  </div>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -94,7 +93,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
         <NavSecondary
           items={data.navSecondary}
           className="mt-auto"
