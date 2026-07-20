@@ -1,4 +1,4 @@
-import db, { count, eq, sql } from "@repo/database";
+import db, { count, eq, sql, and, gte } from "@repo/database";
 
 import { formsTable } from "@repo/database/models/form";
 import { formSubmissionTable } from "@repo/database/models/form-submission";
@@ -21,8 +21,8 @@ export const analyticsService = {
     const totalForms = formsCount[0]?.totalForms ?? 0;
 
     const viewsResult = await db
-  .select({
-    totalViews: sql<number>`COALESCE(SUM(${formsTable.views}), 0)`,
+      .select({
+      totalViews: sql<number>`COALESCE(SUM(${formsTable.views}), 0)`,
   })
   .from(formsTable)
   .where(eq(formsTable.createdBy, userId));
@@ -81,4 +81,35 @@ const draftForms = draftCount[0]?.total ?? 0;
       responseRate,
     };
   },
+
+  async getResponsesOverTime({
+      userId,
+    }: {
+      userId: string;
+  }) {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const responsesOverTime = await db
+      .select({
+        date: sql<string>`DATE(${formSubmissionTable.createdAt})`,
+        responses: count(),
+      })
+      .from(formSubmissionTable)
+      .innerJoin(
+        formsTable,
+        eq(formSubmissionTable.formId, formsTable.id)
+      )
+      .where(
+        and(
+          eq(formsTable.createdBy, userId),
+          gte(formSubmissionTable.createdAt, thirtyDaysAgo)
+        )
+      )
+      .groupBy(sql`DATE(${formSubmissionTable.createdAt})`)
+      .orderBy(sql`DATE(${formSubmissionTable.createdAt})`);
+
+      console.log("getResponsesOverTime called");
+      return responsesOverTime;
+    }
 };

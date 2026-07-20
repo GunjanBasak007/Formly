@@ -2,12 +2,19 @@
 
 import { StatsGrid } from "~/components/analytics/stats-grid";
 import { Charts } from "~/components/analytics/charts";
-import { useGetDashboardStats } from "~/hooks/api/analytics";
+import { useGetDashboardStats,useGetResponsesOverTime } from "~/hooks/api/analytics";
 
 export default function AnalyticsPage() {
   const { analytics, isLoading } = useGetDashboardStats();
 
-  if (isLoading || !analytics) {
+  const {
+  responsesOverTime,
+  isLoading: isLoadingResponses,
+} = useGetResponsesOverTime();
+
+console.log(responsesOverTime);
+
+  if (isLoading || isLoadingResponses || !analytics) {
     return <p className="p-6">Loading...</p>;
   }
 
@@ -29,7 +36,7 @@ export default function AnalyticsPage() {
         responseRate={analytics.responseRate}
       />
 
-      <Charts />
+      <Charts responsesOverTime={responsesOverTime ?? []} />
     </div>
   );
 }

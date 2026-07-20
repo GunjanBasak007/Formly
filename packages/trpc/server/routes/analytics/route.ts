@@ -5,6 +5,8 @@ import { analyticsService } from "../../services";
 import {
   getDashboardStatsInputModel,
   getDashboardStatsOutputModel,
+  getResponsesOverTimeInputModel,
+  getResponsesOverTimeOutputModel,
 } from "./model";
 
 const TAGS = ["Analytics"];
@@ -27,4 +29,21 @@ export const analyticsRouter = router({
         userId: ctx.user.id,
       });
     }),
+
+  getResponsesOverTime: authenticatedProcedure
+  .meta({
+    openapi: {
+      method: "GET",
+      path: getPath("/getResponsesOverTime"),
+      tags: TAGS,
+      protect: true,
+    },
+  })
+  .input(getResponsesOverTimeInputModel)
+  .output(getResponsesOverTimeOutputModel)
+  .query(async ({ ctx }) => {
+    return analyticsService.getResponsesOverTime({
+      userId: ctx.user.id,
+    });
+  }),
 });
