@@ -2,6 +2,7 @@ import db, { count, eq, sql, and, gte } from "@repo/database";
 
 import { formsTable } from "@repo/database/models/form";
 import { formSubmissionTable } from "@repo/database/models/form-submission";
+import { formViewEventsTable } from "@repo/database/models/form-view-event";
 
 export const analyticsService = {
   async getDashboardStats({
@@ -82,6 +83,8 @@ const draftForms = draftCount[0]?.total ?? 0;
     };
   },
 
+
+  //Get views over time
   async getResponsesOverTime({
       userId,
     }: {
@@ -111,5 +114,37 @@ const draftForms = draftCount[0]?.total ?? 0;
 
       console.log("getResponsesOverTime called");
       return responsesOverTime;
-    }
+    },
+
+    
+    // Get views over time
+      async getViewsOverTime({
+        userId,
+      }: {
+        userId: string;
+      }) {
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        const viewsOverTime = await db
+          .select({
+            date: sql<string>`DATE(${formViewEventsTable.createdAt})`,
+            views: count(),
+          })
+          .from(formViewEventsTable)
+          .innerJoin(
+            formsTable,
+            eq(formViewEventsTable.formId, formsTable.id)
+          )
+          .where(
+            and(
+              eq(formsTable.createdBy, userId),
+              gte(formViewEventsTable.createdAt, thirtyDaysAgo)
+            )
+          )
+          .groupBy(sql`DATE(${formViewEventsTable.createdAt})`)
+          .orderBy(sql`DATE(${formViewEventsTable.createdAt})`);
+
+        return viewsOverTime;
+    },
 };

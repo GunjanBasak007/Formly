@@ -22,3 +22,14 @@ export const getResponsesOverTimeOutputModel = z.array(
     responses: z.number(),
   })
 );
+
+
+// Views Over Time
+export const getViewsOverTimeInputModel = z.undefined();
+
+export const getViewsOverTimeOutputModel = z.array(
+  z.object({
+    date: z.string(),
+    views: z.number(),
+  })
+);

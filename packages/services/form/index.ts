@@ -1,6 +1,7 @@
 import { db, eq, asc, sql } from '@repo/database'
 import { formsTable } from '@repo/database/models/form'
 import { formFieldsTable } from '@repo/database/models/form-field'
+import { formViewEventsTable } from "@repo/database";
 import { type CreateFormInputType,
         createFormInput,
 
@@ -48,14 +49,30 @@ class FormService {
         return forms
     }
 
-    public async getFormById(payload: GetFormByIdInputType) {
-        const { formId } = await getFormByIdInput.parseAsync(payload)
-        await db
-        .update(formsTable)
-        .set({
-            views: sql`${formsTable.views} + 1`,
-        })
-        .where(eq(formsTable.id, formId));
+public async getFormById(payload: GetFormByIdInputType) {
+
+    const { formId } = await getFormByIdInput.parseAsync(payload);
+
+    await db.transaction(async (tx) => {
+
+        await tx
+            .update(formsTable)
+            .set({
+                views: sql`${formsTable.views} + 1`,
+            })
+            .where(eq(formsTable.id, formId));
+
+try {
+    await tx.insert(formViewEventsTable).values({
+        formId,
+    });
+
+    
+} catch (err) {
+    console.dir(err, { depth: null });
+    throw err;
+}
+    });
 
         const rows = await db
             .select({

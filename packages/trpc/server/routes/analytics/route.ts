@@ -7,6 +7,8 @@ import {
   getDashboardStatsOutputModel,
   getResponsesOverTimeInputModel,
   getResponsesOverTimeOutputModel,
+  getViewsOverTimeInputModel,
+  getViewsOverTimeOutputModel,
 } from "./model";
 
 const TAGS = ["Analytics"];
@@ -43,6 +45,23 @@ export const analyticsRouter = router({
   .output(getResponsesOverTimeOutputModel)
   .query(async ({ ctx }) => {
     return analyticsService.getResponsesOverTime({
+      userId: ctx.user.id,
+    });
+  }),
+
+  getViewsOverTime: authenticatedProcedure
+  .meta({
+    openapi: {
+      method: "GET",
+      path: getPath("/getViewsOverTime"),
+      tags: TAGS,
+      protect: true,
+    },
+  })
+  .input(getViewsOverTimeInputModel)
+  .output(getViewsOverTimeOutputModel)
+  .query(async ({ ctx }) => {
+    return analyticsService.getViewsOverTime({
       userId: ctx.user.id,
     });
   }),

@@ -1,7 +1,7 @@
 import {
-    pgTable,
-    uuid,
-    timestamp,
+  pgTable,
+  uuid,
+  timestamp,
 } from "drizzle-orm/pg-core";
 
 import { formsTable } from "./form";
@@ -10,10 +10,10 @@ export const formViewEventsTable = pgTable("form_view_events", {
     id: uuid("id").primaryKey().defaultRandom(),
 
     formId: uuid("form_id")
-        .references(() => formsTable.id, {
-            onDelete: "cascade",
-        })
+        .references(() => formsTable.id)
         .notNull(),
 
-    createdAt: timestamp("created_at").defaultNow(),
+    createdAt: timestamp("created_at")
+        .defaultNow()
+        .notNull(),
 });

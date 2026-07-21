@@ -1,4 +1,5 @@
 import { ResponsesOverTimeChart } from "./responses-over-time-chart";
+import { ViewsOverTimeChart } from "./views-over-time-chart";
 
 type ResponseOverTime = {
   date: string;
@@ -7,12 +8,28 @@ type ResponseOverTime = {
 
 type Props = {
   responsesOverTime: ResponseOverTime[];
+  viewsOverTime: ViewOverTime[];
 };
 
-export function Charts({ responsesOverTime }: Props) {
+type ViewOverTime = {
+  date: string;
+  views: number;
+};
+
+export function Charts({ 
+  responsesOverTime,
+  viewsOverTime,
+ }: Props) {
   return (
-    <ResponsesOverTimeChart
-      data={responsesOverTime}
+    <div className="grid gap-6 lg:grid-cols-2">
+      <ResponsesOverTimeChart
+        data={responsesOverTime}
+      />
+
+      <ViewsOverTimeChart
+      data={viewsOverTime}
     />
+    </div>
+    
   );
 }

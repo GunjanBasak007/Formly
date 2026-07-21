@@ -43,3 +43,25 @@ export const useGetResponsesOverTime = () => {
     status,
   };
 };
+
+
+// For generating views over time
+export const useGetViewsOverTime = () => {
+  const {
+    data: viewsOverTime,
+    error,
+    isFetched,
+    isFetching,
+    isLoading,
+    status,
+  } = trpc.analytics.getViewsOverTime.useQuery();
+
+  return {
+    viewsOverTime,
+    error,
+    isFetched,
+    isFetching,
+    isLoading,
+    status,
+  };
+};

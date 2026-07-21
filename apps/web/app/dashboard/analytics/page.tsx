@@ -2,7 +2,10 @@
 
 import { StatsGrid } from "~/components/analytics/stats-grid";
 import { Charts } from "~/components/analytics/charts";
-import { useGetDashboardStats,useGetResponsesOverTime } from "~/hooks/api/analytics";
+import { useGetDashboardStats,
+         useGetResponsesOverTime,
+        useGetViewsOverTime,
+    } from "~/hooks/api/analytics";
 
 export default function AnalyticsPage() {
   const { analytics, isLoading } = useGetDashboardStats();
@@ -12,9 +15,17 @@ export default function AnalyticsPage() {
   isLoading: isLoadingResponses,
 } = useGetResponsesOverTime();
 
+  const {
+  viewsOverTime,
+  isLoading: isLoadingViews,
+} = useGetViewsOverTime();
+
 console.log(responsesOverTime);
 
-  if (isLoading || isLoadingResponses || !analytics) {
+  if (isLoading ||
+     isLoadingResponses ||
+     isLoadingViews ||
+     !analytics) {
     return <p className="p-6">Loading...</p>;
   }
 
@@ -36,7 +47,10 @@ console.log(responsesOverTime);
         responseRate={analytics.responseRate}
       />
 
-      <Charts responsesOverTime={responsesOverTime ?? []} />
+      <Charts
+        responsesOverTime={responsesOverTime ?? []}
+        viewsOverTime={viewsOverTime ?? []}
+      />
     </div>
   );
 }
