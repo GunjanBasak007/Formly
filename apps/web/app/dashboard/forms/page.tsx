@@ -7,7 +7,9 @@ import {
   MoreHorizontal,
   PencilIcon,
   Trash2,
+  FileText,
 } from "lucide-react";
+
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -27,7 +29,6 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,7 +36,12 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
-import { useCreateForm, useListForms,useDeleteForm } from "~/hooks/api/form";
+import {
+  useCreateForm,
+  useDeleteForm,
+  useListForms,
+} from "~/hooks/api/form";
+import { useListFormsWithResponseStats } from "~/hooks/api/response";
 
 type CreateFormValues = {
   title: string;
@@ -45,13 +51,17 @@ type CreateFormValues = {
 export default function FormsPage() {
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+
   const [selectedForm, setSelectedForm] = useState<{
-        id: string;
-        title: string;
-    } | null>(null);
+    id: string;
+    title: string;
+  } | null>(null);
+
   const { createFormAsync, isError, error } = useCreateForm();
   const { deleteFormAsync } = useDeleteForm();
+
   const { forms, isLoading } = useListForms();
+  const { forms: statsForms } = useListFormsWithResponseStats();
 
   const {
     register,
@@ -59,7 +69,10 @@ export default function FormsPage() {
     reset,
     formState: { isSubmitting },
   } = useForm<CreateFormValues>({
-    defaultValues: { title: "", description: "" },
+    defaultValues: {
+      title: "",
+      description: "",
+    },
   });
 
   const onSubmit: SubmitHandler<CreateFormValues> = async (values) => {
@@ -67,15 +80,26 @@ export default function FormsPage() {
       title: values.title,
       description: values.description || undefined,
     });
+
     reset();
     setOpen(false);
   };
+
+  const responseStats = new Map(
+    (statsForms ?? []).map((form) => [
+      form.id,
+      form.responseCount,
+    ])
+  );
 
   return (
     <div className="p-6 flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Forms</h1>
-        <Button onClick={() => setOpen(true)}>Create Form</Button>
+
+        <Button onClick={() => setOpen(true)}>
+          Create Form
+        </Button>
       </div>
 
       <div className="rounded-lg border overflow-hidden">
@@ -85,68 +109,106 @@ export default function FormsPage() {
               <TableHead>Title</TableHead>
               <TableHead>Description</TableHead>
               <TableHead>Created</TableHead>
+              <TableHead>Responses</TableHead>
               <TableHead className="w-16" />
             </TableRow>
           </TableHeader>
+
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
+                <TableCell
+                  colSpan={5}
+                  className="h-24 text-center text-muted-foreground"
+                >
                   Loading...
                 </TableCell>
               </TableRow>
             ) : !forms || forms.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
+                <TableCell
+                  colSpan={5}
+                  className="h-24 text-center text-muted-foreground"
+                >
                   No forms yet. Create your first one.
                 </TableCell>
               </TableRow>
             ) : (
               forms.map((form) => (
                 <TableRow key={form.id}>
-                  <TableCell className="font-medium">{form.title}</TableCell>
+                  <TableCell className="font-medium">
+                    {form.title}
+                  </TableCell>
+
                   <TableCell className="text-muted-foreground">
                     {form.description ?? "—"}
                   </TableCell>
+
                   <TableCell className="text-muted-foreground text-sm">
-                    {form.createdAt ? new Date(form.createdAt).toLocaleDateString() : "—"}
+                    {form.createdAt
+                      ? new Date(form.createdAt).toLocaleDateString()
+                      : "—"}
                   </TableCell>
+
                   <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <MoreHorizontal className="size-4" />
-                              <span className="sr-only">Open menu</span>
-                            </Button>
-                          </DropdownMenuTrigger>
+                    <Link
+                      href={`/dashboard/forms/${form.id}/submissions`}
+                      className="text-primary hover:underline"
+                    >
+                      {responseStats.get(form.id) ?? 0}
+                    </Link>
+                  </TableCell>
 
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                                    onSelect={(e) => e.preventDefault()}
-                                      asChild
-                                  >
-                                    <Link href={`/dashboard/forms/${form.id}`}>
-                                      <PencilIcon className="mr-2 h-4 w-4" />
-                                      Edit
-                                    </Link>
-                                  </DropdownMenuItem>
-                                  
-                              <DropdownMenuItem
-                                onClick={() => {
-                                  setSelectedForm({
-                                    id: form.id,
-                                    title: form.title,
-                                  });
-                                  setDeleteOpen(true);
-                                }}
-                              >
-                                <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreHorizontal className="size-4" />
+                          <span className="sr-only">
+                            Open menu
+                          </span>
+                        </Button>
+                      </DropdownMenuTrigger>
 
-                        </DropdownMenu>
-                      </TableCell>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem
+                          onSelect={(e) => e.preventDefault()}
+                          asChild
+                        >
+                          <Link
+                            href={`/dashboard/forms/${form.id}`}
+                          >
+                            <PencilIcon className="mr-2 h-4 w-4" />
+                            Edit
+                          </Link>
+                        </DropdownMenuItem>
+
+                      <DropdownMenuItem
+  onSelect={(e) => e.preventDefault()}
+  asChild
+>
+  <Link href={`/dashboard/forms/${form.id}/submissions`}>
+    <FileText className="mr-2 h-4 w-4" />
+    Responses
+  </Link>
+</DropdownMenuItem>
+
+                        <DropdownMenuItem
+                          onClick={() => {
+                            setSelectedForm({
+                              id: form.id,
+                              title: form.title,
+                            });
+
+                            setDeleteOpen(true);
+                          }}
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
                 </TableRow>
               ))
             )}
@@ -164,22 +226,35 @@ export default function FormsPage() {
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="title">Title</FieldLabel>
+
                 <Input
                   id="title"
                   placeholder="e.g. Customer Feedback"
-                  {...register("title", { required: true, maxLength: 55 })}
+                  {...register("title", {
+                    required: true,
+                    maxLength: 55,
+                  })}
                 />
               </Field>
+
               <Field>
-                <FieldLabel htmlFor="description">Description</FieldLabel>
+                <FieldLabel htmlFor="description">
+                  Description
+                </FieldLabel>
+
                 <Textarea
                   id="description"
                   placeholder="What is this form for? (optional)"
-                  {...register("description", { maxLength: 300 })}
+                  {...register("description", {
+                    maxLength: 300,
+                  })}
                 />
               </Field>
+
               {isError && (
-                <p className="text-sm text-destructive">{error?.message}</p>
+                <p className="text-sm text-destructive">
+                  {error?.message}
+                </p>
               )}
             </FieldGroup>
 
@@ -187,65 +262,76 @@ export default function FormsPage() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => { reset(); setOpen(false); }}
+                onClick={() => {
+                  reset();
+                  setOpen(false);
+                }}
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Creating..." : "Create Form"}
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting
+                  ? "Creating..."
+                  : "Create Form"}
               </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
 
+      <Dialog
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Form</DialogTitle>
+          </DialogHeader>
 
-      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Delete Form</DialogTitle>
-                </DialogHeader>
+          <p className="text-sm text-muted-foreground">
+            Are you sure you want to delete{" "}
+            <span className="font-semibold">
+              {selectedForm?.title}
+            </span>
+            ?
+            <br />
+            This action cannot be undone. All fields and
+            responses will be permanently deleted.
+          </p>
 
-                <p className="text-sm text-muted-foreground">
-                  Are you sure you want to delete{" "}
-                  <span className="font-semibold">
-                    {selectedForm?.title}
-                  </span>
-                  ?
-                  <br />
-                  This action cannot be undone. All fields and responses
-                  will be permanently deleted.
-                </p>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setDeleteOpen(false);
+                setSelectedForm(null);
+              }}
+            >
+              Cancel
+            </Button>
 
-                <DialogFooter>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setDeleteOpen(false);
-                      setSelectedForm(null);
-                    }}
-                  >
-                    Cancel
-                  </Button>
+            <Button
+              variant="destructive"
+              onClick={async () => {
+                if (!selectedForm) return;
 
-                  <Button
-                    variant="destructive"
-                    onClick={async () => {
-                      if (!selectedForm) return;
+                await deleteFormAsync({
+                  formId: selectedForm.id,
+                });
 
-                      await deleteFormAsync({
-                        formId: selectedForm.id,
-                      });
-
-                      setDeleteOpen(false);
-                      setSelectedForm(null);
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                setDeleteOpen(false);
+                setSelectedForm(null);
+              }}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
