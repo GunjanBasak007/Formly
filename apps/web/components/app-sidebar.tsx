@@ -7,6 +7,7 @@ import {
   IconDashboard,
   IconSettings,
   IconClipboardText,
+  IconEye,
 } from "@tabler/icons-react";
 
 import { NavMain } from "~/components/nav-main";
@@ -29,23 +30,26 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: IconDashboard,
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: IconDashboard,
+  },
+  {
+    title: "Forms",
+    url: "/dashboard/forms",
+    icon: IconClipboardText,
+  },
+  {
+    title: "Response Preview",
+    url: "YOUR_ROUTE_HERE",
+    icon: IconEye,
+  },
+  {
+    title: "Analytics",
+    url: "/dashboard/analytics",
+    icon: IconChartBar,
     },
-    {
-      title: "Forms",
-      url: "/dashboard/forms",
-      icon: IconClipboardText,
-    },
-
-    {
-      title: "Analytics",
-      url: "/dashboard/analytics",
-      icon: IconChartBar,
-    },
- 
   ],
 
   navSecondary: [
