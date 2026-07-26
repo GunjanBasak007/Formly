@@ -9,12 +9,10 @@ export default function AuthLayout({
   children: ReactNode;
 }) {
   return (
-    <main className="grid min-h-screen lg:grid-cols-2">
+    <main className="grid min-h-screen lg:grid-cols-[44%_56%]">
       <AuthSidePanel />
 
-      <AuthContainer>
-        {children}
-      </AuthContainer>
+      <AuthContainer>{children}</AuthContainer>
     </main>
   );
 }
