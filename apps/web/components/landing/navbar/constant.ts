@@ -1,29 +1,36 @@
-export interface NavItem {
-  title: string;
-  href: string;
-  external?: boolean;
-}
+export const NAVBAR_CONTENT = {
+  links: [
+    {
+      label: "Features",
+      href: "#features",
+    },
+    {
+      label: "Product",
+      href: "#product",
+    },
+    {
+      label: "Templates",
+      href: "#templates",
+    },
+    {
+      label: "Docs",
+      href: "/docs",
+    },
+    {
+      label: "GitHub",
+      href: "https://github.com/GunjanBasak007/Formly",
+    },
+  ],
 
-export const NAV_ITEMS: NavItem[] = [
-  {
-    title: "Features",
-    href: "#features",
+  actions: {
+    login: {
+      label: "Log In",
+      href: "/login",
+    },
+
+    signup: {
+      label: "Get Started Free",
+      href: "/signup",
+    },
   },
-  {
-    title: "Product",
-    href: "#product",
-  },
-  {
-    title: "Templates",
-    href: "#templates",
-  },
-  {
-    title: "Docs",
-    href: "#docs",
-  },
-  {
-    title: "GitHub",
-    href: "https://github.com/GunjanBasak007/Formly.git",
-    external: true,
-  },
-];
+} as const;

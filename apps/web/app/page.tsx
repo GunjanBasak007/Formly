@@ -8,7 +8,6 @@ import {BuiltForEveryone} from "~/components/landing/built-for-everyone/built-fo
 import {FAQ} from "~/components/landing/faq/faq";
 import {CTA} from "~/components/landing/cta/cta";
 import {Footer} from "~/components/landing/footer/footer"
-
 export default function Home() {
   return (
     <main className="min-h-screen">

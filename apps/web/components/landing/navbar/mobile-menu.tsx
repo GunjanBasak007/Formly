@@ -12,7 +12,7 @@ import {
 } from "~/components/ui/sheet";
 
 import { NavbarLogo } from "./navbar-logo";
-import { NAV_ITEMS } from "./constant";
+import { NAVBAR_CONTENT } from "./constant";
 
 export function MobileMenu() {
   return (
@@ -34,15 +34,15 @@ export function MobileMenu() {
           </SheetHeader>
 
           <nav className="flex flex-col gap-2 px-4">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-              >
-                {item.title}
-              </Link>
-            ))}
+            {NAVBAR_CONTENT.links.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="..."
+                >
+                  {item.label}
+                </Link>
+              ))}
           </nav>
 
           <div className="mt-auto space-y-3 border-t p-4">

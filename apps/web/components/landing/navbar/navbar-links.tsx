@@ -1,21 +1,17 @@
 import Link from "next/link";
 
-import { NAV_ITEMS } from "./constant";
+import { NAVBAR_CONTENT } from "./constant";
 
 export function NavbarLinks() {
   return (
     <nav className="hidden items-center gap-8 md:flex">
-      {NAV_ITEMS.map((item) => (
+      {NAVBAR_CONTENT.links.map((item) => (
         <Link
-          key={item.title}
+          key={item.label}
           href={item.href}
-          {...(item.external && {
-            target: "_blank",
-            rel: "noopener noreferrer",
-          })}
           className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
-          {item.title}
+          {item.label}
         </Link>
       ))}
     </nav>

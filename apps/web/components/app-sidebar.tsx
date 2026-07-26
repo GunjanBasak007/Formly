@@ -7,7 +7,6 @@ import {
   IconDashboard,
   IconSettings,
   IconClipboardText,
-  IconEye,
 } from "@tabler/icons-react";
 
 import { NavMain } from "~/components/nav-main";
@@ -39,11 +38,6 @@ const data = {
     title: "Forms",
     url: "/dashboard/forms",
     icon: IconClipboardText,
-  },
-  {
-    title: "Response Preview",
-    url: "YOUR_ROUTE_HERE",
-    icon: IconEye,
   },
   {
     title: "Analytics",

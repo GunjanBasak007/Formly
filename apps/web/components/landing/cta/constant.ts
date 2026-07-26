@@ -1,5 +1,4 @@
 export const CTA_CONTENT = {
-//   badge: "✨ Start Building Today",
 
   title: "Create forms people actually enjoy filling out.",
 
@@ -8,7 +7,7 @@ export const CTA_CONTENT = {
 
   primaryButton: {
     text: "Start Building for Free",
-    href: "/sign-up",
+    href: "/signup",
   },
 
   footerText: "No credit card required • Free forever",
