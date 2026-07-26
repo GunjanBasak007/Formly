@@ -9,9 +9,9 @@ import {
 
 export const FEATURES_CONTENT = {
   heading: {
-    title: "Everything you need to build powerful forms",
+    title: "Everything You Need to Build Powerful Forms",
     description:
-      "Design, publish, and analyze forms effortlessly with a modern toolkit built for speed, flexibility, and collaboration.",
+      "Create beautiful forms, publish them instantly, collect responses effortlessly, and uncover actionable insights—all from one intuitive platform.",
   },
 
   features: [
@@ -19,37 +19,37 @@ export const FEATURES_CONTENT = {
       icon: Move,
       title: "Drag & Drop Builder",
       description:
-        "Create forms visually with an intuitive drag-and-drop editor. Rearrange fields instantly without writing code.",
+        "Build forms visually with a smooth drag-and-drop experience. Rearrange, customize, and launch in minutes—no coding required.",
     },
     {
       icon: LayoutTemplate,
       title: "Beautiful Components",
       description:
-        "Choose from modern input fields, layouts, and customizable form elements that look great out of the box.",
+        "Choose from thoughtfully designed fields and layouts that look polished by default and are easy to customize.",
     },
     {
       icon: Link2,
       title: "Instant Sharing",
       description:
-        "Publish your form in one click and share it anywhere using a unique, ready-to-use link.",
+        "Publish your form with a single click and share it anywhere using a secure, ready-to-use link.",
     },
     {
       icon: BarChart3,
-      title: "Analytics Dashboard",
+      title: "Real-time Analytics",
       description:
-        "Monitor views, responses, and performance with insightful analytics to understand your audience.",
+        "Track views, responses, and engagement through a clean dashboard that helps you understand performance at a glance.",
     },
     {
       icon: Smartphone,
-      title: "Responsive Experience",
+      title: "Responsive by Default",
       description:
-        "Every form automatically adapts to desktop, tablet, and mobile devices for a seamless user experience.",
+        "Deliver a seamless experience across desktop, tablet, and mobile without any extra effort.",
     },
     {
       icon: ShieldCheck,
-      title: "Secure Submissions",
+      title: "Secure & Reliable",
       description:
-        "Protect your data with reliable infrastructure and secure submission handling you can trust.",
+        "Keep every submission protected with dependable infrastructure designed for reliability and peace of mind.",
     },
   ],
 } as const;

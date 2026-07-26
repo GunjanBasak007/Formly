@@ -7,13 +7,13 @@ import { NavbarLogo } from "./navbar-logo";
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl">
-      <Container className="flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/60">
+      <Container className="flex h-18 items-center justify-between">
         <NavbarLogo />
 
         <NavbarLinks />
 
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <NavbarActions />
           <MobileMenu />
         </div>

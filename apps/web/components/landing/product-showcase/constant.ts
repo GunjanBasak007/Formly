@@ -7,43 +7,94 @@ import {
 
 export const PRODUCT_SHOWCASE_CONTENT = {
   heading: {
-    title: "See Formly in action",
+    title: "See Formly in Action",
     description:
-      "Explore the core experiences that make Formly a modern platform for building, publishing, and managing forms.",
+      "From building beautiful forms to analyzing every response, discover how Formly simplifies your entire workflow.",
   },
 
   showcases: [
     {
       icon: SquareMousePointer,
-      title: "Visual Form Builder",
+
+      badge: "Builder",
+
+      title: "Create Forms Visually",
+
       description:
-        "Build forms effortlessly with an intuitive drag-and-drop interface. Add, edit, and organize fields in seconds.",
+        "Build forms effortlessly with an intuitive drag-and-drop editor. Customize every field, organize layouts, and publish in minutes without writing code.",
+
+      highlights: [
+        "Drag & Drop Builder",
+        "Custom Components",
+        "Live Editing",
+      ],
+
       image: "/landing/builder-preview.png",
+
       alt: "Form Builder Preview",
     },
+
     {
       icon: LayoutDashboard,
-      title: "Live Form Preview",
+
+      badge: "Preview",
+
+      title: "Preview Before You Publish",
+
       description:
-        "Preview your form exactly as respondents will see it before publishing with confidence.",
+        "Preview your forms exactly as respondents will experience them and publish confidently with a single click.",
+
+      highlights: [
+        "Responsive Preview",
+        "Instant Publishing",
+        "Share Anywhere",
+      ],
+
       image: "/landing/live-preview.png",
+
       alt: "Live Form Preview",
     },
+
     {
       icon: ClipboardList,
-      title: "Response Management",
+
+      badge: "Responses",
+
+      title: "Manage Every Submission",
+
       description:
-        "View, organize, and manage every submission from a clean and centralized dashboard.",
+        "Review, search, and organize responses from one centralized dashboard designed for speed and clarity.",
+
+      highlights: [
+        "Search Responses",
+        "Export Data",
+        "Powerful Filters",
+      ],
+
       image: "/landing/responses-preview.png",
-      alt: "Responses Dashboard Preview",
+
+      alt: "Responses Dashboard",
     },
+
     {
       icon: BarChart3,
-      title: "Powerful Analytics",
+
+      badge: "Analytics",
+
+      title: "Turn Data Into Insights",
+
       description:
-        "Track views, submissions, and engagement with clear insights that help you understand your forms.",
+        "Monitor views, responses, and engagement with a clean analytics dashboard that helps you make informed decisions.",
+
+      highlights: [
+        "Views & Responses",
+        "Performance Metrics",
+        "Visual Reports",
+      ],
+
       image: "/landing/analytics-preview.png",
-      alt: "Analytics Dashboard Preview",
+
+      alt: "Analytics Dashboard",
     },
   ],
 } as const;

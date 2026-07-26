@@ -3,16 +3,18 @@ import { ShowcaseItem } from "./showcase-item";
 
 export function ShowcaseList() {
   return (
-    <div className="space-y-24">
-      {PRODUCT_SHOWCASE_CONTENT.showcases.map((showcase, index) => (
+    <div className="space-y-32">
+      {PRODUCT_SHOWCASE_CONTENT.showcases.map((item, index) => (
         <ShowcaseItem
-          key={showcase.title}
-          icon={showcase.icon}
-          title={showcase.title}
-          description={showcase.description}
-          image={showcase.image}
-          alt={showcase.alt}
-          reverse={index % 2 !== 0}
+          key={item.title}
+          icon={item.icon}
+          badge={item.badge}
+          title={item.title}
+          description={item.description}
+          highlights={item.highlights}
+          image={item.image}
+          alt={item.alt}
+          reverse={index % 2 === 1}
         />
       ))}
     </div>

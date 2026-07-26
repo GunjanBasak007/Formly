@@ -1,14 +1,22 @@
+import { ArrowRight, Github } from "lucide-react";
+
 export const CTA_CONTENT = {
-
-  title: "Create forms people actually enjoy filling out.",
-
-  description:
-    "From surveys and registrations to feedback and event forms, Formly helps you build, publish, and analyze everything in one intuitive platform.",
-
-  primaryButton: {
-    text: "Start Building for Free",
-    href: "/signup",
+  heading: {
+    badge: "Start Building Today",
+    title: "Create Beautiful Forms in Minutes",
+    description:
+      "Build, publish, collect responses, and analyze results — all from one modern platform designed for speed and simplicity.",
   },
 
-  footerText: "No credit card required • Free forever",
+  primaryAction: {
+    label: "Get Started Free",
+    href: "/sign-up",
+    icon: ArrowRight,
+  },
+
+  secondaryAction: {
+    label: "View on GitHub",
+    href: "https://github.com/GunjanBasak007/Formly",
+    icon: Github,
+  },
 } as const;

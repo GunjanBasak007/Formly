@@ -1,21 +1,38 @@
-import { HERO_CONTENT } from "./constant";
-
 export function HeroHeading() {
   return (
-    <h1 className="max-w-4xl text-5xl font-extrabold leading-tight tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-      <span>{HERO_CONTENT.title.first}</span>
+    <div className="space-y-4">
+      <h1
+        className="
+          max-w-2xl
+          text-5xl
+          font-extrabold
+          tracking-tight
+          text-slate-900
+          sm:text-6xl
+          lg:text-7xl
+          lg:leading-[1.05]
+        "
+      >
+        Build Forms That
+        <br />
 
-      <br />
+        <span className="text-slate-900">
+          People Actually{" "}
+        </span>
 
-      <span>{HERO_CONTENT.title.second} </span>
-
-      <span className="bg-gradient-to-r from-primary via-violet-500 to-primary bg-clip-text text-transparent">
-        {HERO_CONTENT.title.highlight}
-      </span>
-
-      <br />
-
-      <span>{HERO_CONTENT.title.last}</span>
-    </h1>
+        <span
+          className="
+            bg-gradient-to-r
+            from-violet-600
+            via-indigo-500
+            to-cyan-500
+            bg-clip-text
+            text-transparent
+          "
+        >
+          Enjoy Filling
+        </span>
+      </h1>
+    </div>
   );
 }

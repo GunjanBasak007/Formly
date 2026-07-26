@@ -5,30 +5,34 @@ import { Card, CardContent } from "~/components/ui/card";
 type SocialProofCardProps = {
   icon: LucideIcon;
   title: string;
-  value: string;
+  description: string;
 };
 
 export function SocialProofCard({
   icon: Icon,
   title,
-  value,
+  description,
 }: SocialProofCardProps) {
   return (
-    <Card className="group border-border/60 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg">
-      <CardContent className="flex flex-col items-center gap-4 p-6 text-center">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
-          <Icon className="h-7 w-7" />
+    <Card className="group relative overflow-hidden rounded-3xl border border-border/60 bg-background/70 shadow-sm backdrop-blur transition-all duration-500 hover:-translate-y-2 hover:border-violet-300/40 hover:shadow-2xl">
+      {/* Hover Glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-cyan-500/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+      <CardContent className="relative flex flex-col items-center p-8 text-center">
+        {/* Icon */}
+        <div className="mb-6 inline-flex rounded-2xl bg-gradient-to-br from-violet-600 via-indigo-500 to-cyan-500 p-4 text-white shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+          <Icon className="size-7" />
         </div>
 
-        <div className="space-y-1">
-          <h3 className="text-base font-semibold text-foreground">
-            {title}
-          </h3>
+        {/* Title */}
+        <h3 className="text-xl font-bold tracking-tight text-foreground">
+          {title}
+        </h3>
 
-          <p className="text-sm text-muted-foreground">
-            {value}
-          </p>
-        </div>
+        {/* Description */}
+        <p className="mt-4 text-base leading-7 text-muted-foreground">
+          {description}
+        </p>
       </CardContent>
     </Card>
   );

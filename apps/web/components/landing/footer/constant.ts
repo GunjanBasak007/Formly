@@ -1,47 +1,60 @@
-import { Github, FileText, LayoutTemplate, Sparkles } from "lucide-react";
+import {
+  BookOpen,
+  FileText,
+  Github,
+  LayoutTemplate,
+  Sparkles,
+} from "lucide-react";
 
 export const FOOTER_CONTENT = {
   brand: {
-    name: "Formly",
+    title: "Formly",
     description:
-      "Build beautiful forms, collect responses, and gain insights—all in one modern platform.",
+      "Build beautiful forms with an intuitive drag-and-drop experience. Create, publish, collect, and analyze — all in one place.",
   },
 
-  product: {
-    title: "Product",
-    links: [
-      {
-        label: "Features",
-        href: "#features",
-        icon: Sparkles,
-      },
-      {
-        label: "Templates",
-        href: "#",
-        icon: LayoutTemplate,
-      },
-    ],
-  },
+  sections: [
+    {
+      title: "Product",
+      links: [
+        {
+          label: "Features",
+          href: "#features",
+          icon: Sparkles,
+        },
+        {
+          label: "Templates",
+          href: "#templates",
+          icon: LayoutTemplate,
+        },
+        {
+          label: "Documentation",
+          href: "#docs",
+          icon: FileText,
+        },
+      ],
+    },
 
-  resources: {
-    title: "Resources",
-    links: [
-      {
-        label: "Documentation",
-        href: "/docs",
-        icon: FileText,
-      },
-      {
-        label: "GitHub",
-        href: "https://github.com/GunjanBasak007/Formly",
-        icon: Github,
-      },
-    ],
-  },
+    {
+      title: "Resources",
+      links: [
+        {
+          label: "GitHub",
+          href: "https://github.com/GunjanBasak007/Formly",
+          icon: Github,
+        },
+        {
+          label: "Docs",
+          href: "#docs",
+          icon: BookOpen,
+        },
+      ],
+    },
+  ],
 
   bottom: {
-  copyright: `© ${new Date().getFullYear()} Formly. All rights reserved.`,
-  builtWith: "Next.js • tRPC • Drizzle ORM • PostgreSQL",
-  author: "Gunjan Basak",
-    },
+    copyright: `© ${new Date().getFullYear()} Formly. All rights reserved.`,
+    madeWith: "Built by Gunjan Basak with ❤️ using Next.js, tRPC & Drizzle ORM.",
+    authorUrl: "https://github.com/GunjanBasak007",
+  },
 } as const;

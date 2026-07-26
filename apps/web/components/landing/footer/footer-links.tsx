@@ -2,21 +2,16 @@ import Link from "next/link";
 
 import { FOOTER_CONTENT } from "./constant";
 
-const sections = [
-  FOOTER_CONTENT.product,
-  FOOTER_CONTENT.resources,
-];
-
 export function FooterLinks() {
   return (
-    <div className="grid grid-cols-2 gap-10 sm:gap-16">
-      {sections.map((section) => (
+    <div className="grid grid-cols-2 gap-12">
+      {FOOTER_CONTENT.sections.map((section) => (
         <div key={section.title}>
-          <h3 className="text-sm font-semibold tracking-wide text-foreground">
+          <h3 className="mb-6 text-lg font-semibold">
             {section.title}
           </h3>
 
-          <ul className="mt-5 space-y-4">
+          <ul className="space-y-4">
             {section.links.map((link) => {
               const Icon = link.icon;
 
@@ -24,19 +19,11 @@ export function FooterLinks() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    target={
-                      link.href.startsWith("http") ? "_blank" : undefined
-                    }
-                    rel={
-                      link.href.startsWith("http")
-                        ? "noopener noreferrer"
-                        : undefined
-                    }
-                    className="group inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="group flex items-center gap-3 text-muted-foreground transition-colors hover:text-violet-600"
                   >
-                    <Icon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    <Icon className="size-4 transition-transform group-hover:translate-x-1" />
 
-                    <span>{link.label}</span>
+                    {link.label}
                   </Link>
                 </li>
               );

@@ -3,7 +3,7 @@ import { FeatureCard } from "./feature-card";
 
 export function FeaturesGrid() {
   return (
-    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
       {FEATURES_CONTENT.features.map((feature) => (
         <FeatureCard
           key={feature.title}

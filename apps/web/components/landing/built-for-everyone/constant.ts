@@ -1,17 +1,17 @@
 import {
-  BriefcaseBusiness,
+  Briefcase,
   GraduationCap,
-  HeartHandshake,
-  Rocket,
-  Store,
-  Ticket,
+  School,
+  SearchCheck,
+  Users,
+  UserRound,
 } from "lucide-react";
 
 export const BUILT_FOR_EVERYONE_CONTENT = {
   heading: {
-    title: "Built for every workflow",
+    badge: "Built for Everyone",
     description:
-      "Whether you're collecting feedback, managing registrations, or running surveys, Formly adapts to the way you work.",
+      "Whether you're collecting feedback, managing applications, or creating surveys, Formly adapts to your workflow.",
   },
 
   audiences: [
@@ -19,37 +19,37 @@ export const BUILT_FOR_EVERYONE_CONTENT = {
       icon: GraduationCap,
       title: "Students",
       description:
-        "Create assignment forms, project submissions, quizzes, and classroom surveys with ease.",
+        "Collect assignments, quizzes, project submissions, and event registrations with ease.",
     },
     {
-      icon: BriefcaseBusiness,
-      title: "Teams",
+      icon: UserRound,
+      title: "Freelancers",
       description:
-        "Manage internal requests, employee feedback, approvals, and HR workflows in one place.",
+        "Simplify client onboarding, collect requirements, and gather project feedback effortlessly.",
     },
     {
-      icon: Rocket,
+      icon: Briefcase,
       title: "Startups",
       description:
-        "Launch waitlists, gather customer feedback, and validate ideas faster with online forms.",
+        "Capture leads, run surveys, manage waitlists, and streamline internal workflows.",
     },
     {
-      icon: Ticket,
-      title: "Event Organizers",
+      icon: School,
+      title: "Educators",
       description:
-        "Handle registrations, RSVPs, attendee details, and event check-ins effortlessly.",
+        "Create exams, classroom surveys, registrations, and course feedback forms in minutes.",
     },
     {
-      icon: Store,
-      title: "Businesses",
+      icon: SearchCheck,
+      title: "Recruiters",
       description:
-        "Capture leads, onboard clients, and collect inquiries through professional forms.",
+        "Manage job applications, candidate screening, and hiring workflows from one place.",
     },
     {
-      icon: HeartHandshake,
-      title: "Communities",
+      icon: Users,
+      title: "Product Teams",
       description:
-        "Run member surveys, volunteer sign-ups, and feedback forms for your organization.",
+        "Collect feature requests, beta feedback, bug reports, and user research efficiently.",
     },
   ],
 } as const;

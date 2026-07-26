@@ -3,22 +3,27 @@ export const NAVBAR_CONTENT = {
     {
       label: "Features",
       href: "#features",
+      external: false,
     },
     {
       label: "Product",
       href: "#product",
+      external: false,
     },
     {
       label: "Templates",
       href: "#templates",
+      external: false,
     },
     {
-      label: "Docs",
+      label: "Documentation",
       href: "/docs",
+      external: false,
     },
     {
       label: "GitHub",
       href: "https://github.com/GunjanBasak007/Formly",
+      external: true,
     },
   ],
 
@@ -27,7 +32,6 @@ export const NAVBAR_CONTENT = {
       label: "Log In",
       href: "/login",
     },
-
     signup: {
       label: "Get Started Free",
       href: "/signup",

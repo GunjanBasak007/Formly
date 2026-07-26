@@ -1,41 +1,43 @@
 import {
-  FileText,
-  Globe,
-  MessagesSquare,
   ShieldCheck,
+  Rocket,
+  Smartphone,
+  Github,
 } from "lucide-react";
 
 export const SOCIAL_PROOF_CONTENT = {
   heading: {
-    title: "Trusted by builders creating better forms",
-    description:
-      "Create, share, and analyze forms with a modern, intuitive experience built for teams and individuals.",
+  badge: "Why Formly",
+  description:
+    "Powered by a modern tech stack, designed with security in mind, and crafted to deliver a seamless form-building experience.",
   },
 
   stats: [
-  {
-    icon: FileText,
-    value: "12.8K+",
-    title: "Forms Created",
-    description: "Built with Formly",
+    {
+  icon: Rocket,
+  title: "Modern Stack",
+  description:
+    "Built using Next.js, tRPC, Drizzle ORM and PostgreSQL.",
   },
-  {
-    icon: MessagesSquare,
-    value: "540K+",
-    title: "Responses",
-    description: "Collected securely",
-  },
-  {
-    icon: Globe,
-    value: "42+",
-    title: "Countries",
-    description: "Worldwide reach",
-  },
-  {
-    icon: ShieldCheck,
-    value: "99.9%",
-    title: "Uptime",
-    description: "Reliable infrastructure",
-  },
-]
-}
+    {
+      icon: ShieldCheck,
+      title: "Secure by Design",
+      description:
+        "Authentication, protected routes, and secure form submissions.",
+    },
+
+    {
+      icon: Smartphone,
+      title: "Responsive Everywhere",
+      description:
+        "Optimized for desktops, tablets, and mobile devices.",
+    },
+
+    {
+      icon: Github,
+      title: "Developer Friendly",
+      description:
+        "Clean architecture that's easy to extend and maintain.",
+    },
+  ],
+} as const;

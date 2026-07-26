@@ -1,37 +1,48 @@
 import {
-  FilePlus2,
-  Move,
+  BarChart3,
+  ClipboardList,
   Send,
+  SquareMousePointer,
 } from "lucide-react";
 
 export const HOW_IT_WORKS_CONTENT = {
   heading: {
-    title: "Build forms in three simple steps",
+    title: "How It Works",
     description:
-      "From creating your first form to collecting responses, Formly makes every step fast, intuitive, and effortless.",
+      "Create, publish, and analyze forms in just a few simple steps.",
   },
 
   steps: [
     {
-      number: "01",
-      icon: FilePlus2,
-      title: "Create Your Form",
+      step: "01",
+      icon: SquareMousePointer,
+      title: "Build Your Form",
       description:
-        "Start with a blank form and add the fields you need using the visual form builder.",
+        "Design beautiful forms using the intuitive drag-and-drop builder.",
     },
+
     {
-      number: "02",
-      icon: Move,
-      title: "Customize & Arrange",
-      description:
-        "Drag, reorder, and configure every field to create the perfect form experience.",
-    },
-    {
-      number: "03",
+      step: "02",
       icon: Send,
-      title: "Publish & Collect",
+      title: "Publish Instantly",
       description:
-        "Publish instantly with a shareable link and start collecting responses in real time.",
+        "Share your form with a single click and start collecting responses.",
+    },
+
+    {
+      step: "03",
+      icon: ClipboardList,
+      title: "Collect Responses",
+      description:
+        "Review every submission from one clean, organized dashboard.",
+    },
+
+    {
+      step: "04",
+      icon: BarChart3,
+      title: "Analyze Results",
+      description:
+        "Understand performance with powerful analytics and insights.",
     },
   ],
 } as const;

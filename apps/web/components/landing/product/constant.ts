@@ -1,8 +1,8 @@
 export const PRODUCT_CONTENT = {
-  badge: "Coming Soon",
+  badge: "Built for Modern Teams",
 
-  title: "Product Showcase",
+  title: "Meet Formly",
 
   description:
-    "Explore Formly in action. Screenshots, interactive previews, and real workflows will be available here soon.",
+    "Create beautiful forms, collect responses effortlessly, and gain actionable insights—all from one intuitive platform.",
 } as const;

@@ -1,39 +1,43 @@
 import { LucideIcon } from "lucide-react";
-
-import { Card, CardContent } from "~/components/ui/card";
-
 type StepCardProps = {
-  number: string;
+  step: string;
   icon: LucideIcon;
   title: string;
   description: string;
 };
 
 export function StepCard({
-  number,
+  step,
   icon: Icon,
   title,
   description,
 }: StepCardProps) {
   return (
-    <Card className="group relative h-full overflow-hidden border-border/60 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl">
-      <CardContent className="relative flex h-full flex-col items-center p-8 text-center">
-        <span className="absolute right-6 top-4 text-6xl font-extrabold text-muted-foreground/10 transition-colors duration-300 group-hover:text-primary/10">
-          {number}
-        </span>
-
-        <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
-          <Icon className="h-8 w-8" />
+    <div className="group relative rounded-3xl border border-border/60 bg-background/80 p-8 shadow-sm backdrop-blur transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl">
+      {/* Timeline Node */}
+      <div className="absolute -top-8 left-1/2 z-20 -translate-x-1/2">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full border-4 border-background bg-gradient-to-br from-violet-600 via-indigo-500 to-cyan-500 shadow-lg">
+          <div className="h-2.5 w-2.5 rounded-full bg-white" />
         </div>
+      </div>
 
-        <h3 className="text-xl font-semibold text-foreground">
-          {title}
-        </h3>
+      {/* Step */}
+      <div className="mt-4 inline-flex rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-sm font-semibold text-violet-700">
+        Step {step}
+      </div>
 
-        <p className="mt-3 leading-7 text-muted-foreground">
-          {description}
-        </p>
-      </CardContent>
-    </Card>
+      {/* Icon */}
+      <div className="mt-8 inline-flex rounded-2xl bg-gradient-to-br from-violet-600 via-indigo-500 to-cyan-500 p-4 text-white shadow-lg transition-transform duration-500 group-hover:scale-105 group-hover:rotate-3">
+        <Icon className="size-7" />
+      </div>
+
+      <h3 className="mt-6 text-2xl font-bold tracking-tight">
+        {title}
+      </h3>
+
+      <p className="mt-4 leading-7 text-muted-foreground">
+        {description}
+      </p>
+    </div>
   );
 }

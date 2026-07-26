@@ -3,7 +3,7 @@ import { AudienceCard } from "./audience-card";
 
 export function AudienceGrid() {
   return (
-    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
       {BUILT_FOR_EVERYONE_CONTENT.audiences.map((audience) => (
         <AudienceCard
           key={audience.title}

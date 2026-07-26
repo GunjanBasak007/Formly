@@ -1,40 +1,45 @@
 export const FAQ_CONTENT = {
   heading: {
-    title: "Frequently asked questions",
+    badge: "Frequently Asked Questions",
     description:
       "Everything you need to know before getting started with Formly.",
   },
 
-  faqs: [
+  questions: [
     {
       question: "Is Formly free to use?",
       answer:
-        "Yes. Formly is currently free to use while we continue building and improving the platform.",
+        "Yes. Formly provides a free experience for creating and managing forms. Additional features can be introduced in future releases.",
     },
+
     {
-      question: "Do I need coding experience?",
+      question: "Do respondents need an account?",
       answer:
-        "No. Formly is designed for everyone. You can build and publish forms visually without writing any code.",
+        "No. Anyone with your shared form link can submit responses without creating a Formly account.",
     },
+
     {
-      question: "Can I share my forms with anyone?",
+      question: "Can I customize my forms?",
       answer:
-        "Absolutely. Every published form comes with a unique shareable link that you can send to anyone.",
+        "Absolutely. Add, remove, reorder, and configure form fields using the drag-and-drop builder.",
     },
+
     {
-      question: "Can I view submitted responses?",
+      question: "Is Formly mobile friendly?",
       answer:
-        "Yes. Formly provides a dedicated dashboard to view and manage all form submissions.",
+        "Yes. Forms and dashboards are fully responsive and work seamlessly across desktops, tablets, and smartphones.",
     },
+
     {
-      question: "Does Formly provide analytics?",
+      question: "Can I track form performance?",
       answer:
-        "Yes. Track views, responses, and engagement through the built-in analytics dashboard.",
+        "Yes. Formly includes analytics that help you monitor views, responses, and engagement for every form.",
     },
+
     {
-      question: "Will more features be added?",
+      question: "Is my data secure?",
       answer:
-        "Definitely. We're continuously improving Formly with new field types, templates, integrations, and collaboration features.",
+        "Security is a priority. Authentication, protected routes, and secure submission handling help keep your data safe.",
     },
   ],
 } as const;
