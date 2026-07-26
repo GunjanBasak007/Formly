@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { cn } from "~/lib/utils";
@@ -56,12 +56,12 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
+                  <Link
+                    href="/forgot-password"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
                 <Input
                   id="password"
@@ -76,8 +76,14 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                   Login with Google
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
-                </FieldDescription>
+                    Don&apos;t have an account?{" "}
+                    <Link
+                      href="/signup"
+                      className="underline underline-offset-4 hover:text-primary"
+                    >
+                      Sign up
+                    </Link>
+                  </FieldDescription>
               </Field>
             </FieldGroup>
           </form>

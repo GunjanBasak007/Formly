@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { cn } from "~/lib/utils";
@@ -120,8 +120,14 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
             Sign up with GitHub
           </Button>
           <FieldDescription className="px-6 text-center">
-            Already have an account? <a href="#">Sign in</a>
-          </FieldDescription>
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Sign in
+              </Link>
+            </FieldDescription>
         </Field>
       </FieldGroup>
     </form>
