@@ -15,12 +15,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <AppSidebar variant="inset" />
       <SidebarInset>
         <SiteHeader />
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            {children}
-          </div>
-        </div>
-      </SidebarInset>
+
+          <main className="flex flex-1 flex-col bg-muted/20 px-8 py-8">
+            <div className="@container/main mx-auto flex w-full max-w-7xl flex-1 flex-col gap-12">
+              {children}
+            </div>
+          </main>
+        </SidebarInset>
     </SidebarProvider>
   )
 }

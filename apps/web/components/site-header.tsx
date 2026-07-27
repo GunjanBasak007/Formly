@@ -1,54 +1,40 @@
-"use client";
+import { Bell, Search } from "lucide-react";
 
-import { usePathname } from "next/navigation";
-
-import { Separator } from "~/components/ui/separator";
-import { SidebarTrigger } from "~/components/ui/sidebar";
-
-function getPageTitle(pathname: string) {
-  if (pathname === "/dashboard") {
-    return "Dashboard";
-  }
-
-  if (pathname === "/dashboard/forms") {
-    return "Forms";
-  }
-
-  if (pathname.includes("/dashboard/forms") && pathname.includes("/submissions")) {
-    return "Responses";
-  }
-
-  if (pathname.includes("/dashboard/forms")) {
-    return "Form Details";
-  }
-
-  if (pathname === "/dashboard/analytics") {
-    return "Analytics";
-  }
-
-  if (pathname === "/dashboard/settings") {
-    return "Settings";
-  }
-
-  return "Dashboard";
-}
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 
 export function SiteHeader() {
-  const pathname = usePathname();
-
   return (
-    <header className="flex h-(--header-height) shrink-0 items-center gap-2">
-      <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
-        <SidebarTrigger className="-ml-1" />
+    <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-8">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight">
+            Dashboard
+          </h1>
 
-        <Separator
-          orientation="vertical"
-          className="mx-2 data-[orientation=vertical]:h-4"
-        />
+          <p className="text-sm text-muted-foreground">
+            Manage your forms and workspace.
+          </p>
+        </div>
 
-        <h1 className="text-base font-medium">
-          {getPageTitle(pathname)}
-        </h1>
+        <div className="flex items-center gap-3">
+          <div className="relative hidden md:block">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+
+            <Input
+              placeholder="Search..."
+              className="w-64 rounded-xl pl-10"
+            />
+          </div>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-xl"
+          >
+            <Bell className="h-5 w-5" />
+          </Button>
+        </div>
       </div>
     </header>
   );
