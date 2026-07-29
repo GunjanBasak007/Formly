@@ -59,3 +59,26 @@ export const useListFormsWithResponseStats = () => {
         status,
     };
 };
+
+
+export const useGetRecentResponses = () => {
+    const {
+        data,
+        error,
+        isLoading,
+        isError,
+        isSuccess,
+        status,
+        refetch,
+    } = trpc.response.getRecentResponses.useQuery();
+
+    return {
+        data,
+        error,
+        isLoading,
+        isError,
+        isSuccess,
+        status,
+        refetch,
+    };
+};

@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import { authenticatedProcedure, router } from "../../trpc";
 import { generatePath } from "../../utils/path-generator";
 import { responseService } from "../../services";
@@ -9,6 +11,7 @@ import {
     listResponsesOutputModel,
     getResponseInputModel,
     getResponseOutputModel,
+    getRecentResponsesOutputModel,
 } from "./model";
 
 const TAGS = ["Response"];
@@ -43,7 +46,7 @@ export const responseRouter = router({
         })
         .input(listResponsesInputModel)
         .output(listResponsesOutputModel)
-        .query(async ({ ctx,input }) => {
+        .query(async ({ ctx, input }) => {
             return responseService.listResponses({
                 userId: ctx.user.id,
                 formId: input.formId,
@@ -65,6 +68,23 @@ export const responseRouter = router({
             return responseService.getResponse({
                 userId: ctx.user.id,
                 responseId: input.responseId,
+            });
+        }),
+
+    getRecentResponses: authenticatedProcedure
+        .meta({
+            openapi: {
+                method: "GET",
+                path: getPath("/getRecentResponses"),
+                tags: TAGS,
+                protect: true,
+            },
+        })
+        .input(z.undefined())
+        .output(getRecentResponsesOutputModel)
+        .query(async ({ ctx }) => {
+            return responseService.getRecentResponses({
+                userId: ctx.user.id,
             });
         }),
 });

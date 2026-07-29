@@ -154,3 +154,17 @@ export const deleteFormInputModel = z.object({
 export const deleteFormOutputModel = z.object({
   success: z.boolean(),
 });
+
+
+//For accessing recent forms
+
+export const getRecentFormsOutputModel = z.array(
+  z.object({
+    id: z.string(),
+    title: z.string(),
+    isPublished: z.boolean(),
+    responses: z.number(),
+    updatedAt: z.date().nullable(),
+  })
+);
+

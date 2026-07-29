@@ -1,7 +1,8 @@
-import { db, eq, asc, sql } from '@repo/database'
-import { formsTable } from '@repo/database/models/form'
-import { formFieldsTable } from '@repo/database/models/form-field'
+import { db, eq, asc, desc, sql} from "@repo/database";
 import { formViewEventsTable } from "@repo/database";
+import { formsTable } from "@repo/database/models/form";
+import { formFieldsTable } from "@repo/database/models/form-field";
+import { formSubmissionTable } from "@repo/database/models/form-submission";
 import { type CreateFormInputType,
         createFormInput,
 
@@ -18,6 +19,8 @@ import { type CreateFormInputType,
 
         type DeleteFormInputType,
         deleteFormInput,
+        type GetRecentFormsInputType,
+        getRecentFormsInput
      } from './model'
 
 class FormService {
@@ -62,17 +65,17 @@ public async getFormById(payload: GetFormByIdInputType) {
             })
             .where(eq(formsTable.id, formId));
 
-try {
-    await tx.insert(formViewEventsTable).values({
-        formId,
-    });
+            try {
+                await tx.insert(formViewEventsTable).values({
+                    formId,
+                });
 
     
-} catch (err) {
-    console.dir(err, { depth: null });
-    throw err;
-}
-    });
+            } catch (err) {
+                console.dir(err, { depth: null });
+                throw err;
+            }
+                });
 
         const rows = await db
             .select({
@@ -143,8 +146,8 @@ try {
             message: isPublished
             ? "Form published successfully"
             : "Form unpublished successfully",
-  };
-}
+        };
+    }
         public async getPublishedFormById(
             payload: GetFormByIdInputType
         ) {
@@ -193,6 +196,44 @@ try {
             success: true,
         };
     }
+
+    public async getRecentForms(payload: GetRecentFormsInputType) {
+  const { userId } = await getRecentFormsInput.parseAsync(payload);
+
+  const forms = await db
+    .select({
+      id: formsTable.id,
+      title: formsTable.title,
+      isPublished: formsTable.isPublished,
+      updatedAt: formsTable.updatedAt,
+      responses: sql<number>`CAST(COUNT(${formSubmissionTable.id}) AS INTEGER)`,
+    })
+    .from(formsTable)
+    .leftJoin(
+      formSubmissionTable,
+      eq(formSubmissionTable.formId, formsTable.id)
+    )
+    .where(eq(formsTable.createdBy, userId))
+    .groupBy(
+      formsTable.id,
+      formsTable.title,
+      formsTable.isPublished,
+      formsTable.updatedAt
+    )
+    .orderBy(desc(formsTable.updatedAt))
+    .limit(3);
+
+  console.dir(forms, { depth: null });
+
+  if (forms.length > 0) {
+    console.log("responses:", forms[0]!.responses);
+    console.log("type:", typeof forms[0]!.responses);
+    console.log("updatedAt:", forms[0]!.updatedAt);
+    console.log("updatedAt type:", typeof forms[0]!.updatedAt);
+}
+
+  return forms;
+}
 }
 
 export default FormService

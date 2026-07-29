@@ -54,4 +54,11 @@ export const deleteFormOutput = z.object({
 
 export type DeleteFormInputType = z.infer<typeof deleteFormInput>;
 
+//For getting recent forms
+export const getRecentFormsInput = z.object({
+  userId: z.string().uuid(),
+});
 
+export type GetRecentFormsInputType = z.infer<
+  typeof getRecentFormsInput
+>;

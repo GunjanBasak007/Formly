@@ -1,22 +1,26 @@
 import {
-    db,
-    eq,
-    count,
-    max,
-    and,
+  db,
+  eq,
+  count,
+  max,
+  and,
+  desc,
 } from "@repo/database";
 
 import { formsTable } from "@repo/database/models/form";
 import { formSubmissionTable } from "@repo/database/models/form-submission";
 import {
-    type ListFormsWithResponseStatsInputType,
-    listFormsWithResponseStatsInput,
+  type ListFormsWithResponseStatsInputType,
+  listFormsWithResponseStatsInput,
 
-    type ListResponsesInputType,
-    listResponsesInput,
+  type ListResponsesInputType,
+  listResponsesInput,
 
-    type GetResponseInputType,
-    getResponseInput,
+  type GetResponseInputType,
+  getResponseInput,
+
+  type GetRecentResponsesInputType,
+  getRecentResponsesInput,
 } from "./model";
 
 class ResponseService {
@@ -132,6 +136,28 @@ class ResponseService {
         values: response.values,
     };
 }
+    public async getRecentResponses(
+    payload: GetRecentResponsesInputType
+    ) {
+    const { userId } = await getRecentResponsesInput.parseAsync(payload);
+
+    const responses = await db
+        .select({
+        id: formSubmissionTable.id,
+        formTitle: formsTable.title,
+        submittedAt: formSubmissionTable.createdAt,
+        })
+        .from(formSubmissionTable)
+        .innerJoin(
+        formsTable,
+        eq(formsTable.id, formSubmissionTable.formId)
+        )
+        .where(eq(formsTable.createdBy, userId))
+        .orderBy(desc(formSubmissionTable.createdAt))
+        .limit(5);
+
+        return responses;
+    }
 }
 
 export default ResponseService;

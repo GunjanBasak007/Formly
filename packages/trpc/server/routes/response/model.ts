@@ -37,3 +37,12 @@ export const getResponseOutputModel = z.object({
     values: z.array(formSubmissionValueModel).nullable(),
 });
 
+// For Dashboard Recent Responses
+
+export const getRecentResponsesOutputModel = z.array(
+  z.object({
+    id: z.string().uuid(),
+    formTitle: z.string(),
+    submittedAt: z.date().nullable(),
+  })
+);

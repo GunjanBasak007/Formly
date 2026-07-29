@@ -5,21 +5,17 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 
 type ResponseCardProps = {
-  respondent: string;
-  formTitle: string;
-  submittedAt: string;
+  response: {
+    id: string;
+    formTitle: string;
+    submittedAt: string | null;
+  };
 };
 
 export function ResponseCard({
-  respondent,
-  formTitle,
-  submittedAt,
+  response,
 }: ResponseCardProps) {
-  const initials = respondent
-    .split(" ")
-    .map((name) => name[0])
-    .join("")
-    .toUpperCase();
+  const { formTitle, submittedAt } = response;
 
   return (
     <Card className="group rounded-2xl border-border/60 transition-all duration-300 hover:-translate-y-1 hover:border-violet-200 hover:shadow-xl dark:hover:border-violet-500/30">
@@ -28,12 +24,14 @@ export function ResponseCard({
           <div className="flex items-center gap-4">
             <Avatar className="h-12 w-12">
               <AvatarFallback className="bg-gradient-to-br from-violet-600 to-indigo-500 text-white">
-                {initials}
+                <User className="h-5 w-5" />
               </AvatarFallback>
             </Avatar>
 
             <div>
-              <h3 className="font-semibold">{respondent}</h3>
+              <h3 className="font-semibold">
+                New Response
+              </h3>
 
               <p className="text-sm text-muted-foreground">
                 {formTitle}
@@ -49,7 +47,9 @@ export function ResponseCard({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Clock3 className="h-4 w-4" />
-            {submittedAt}
+            {submittedAt
+              ? new Date(submittedAt).toLocaleString()
+              : "Unknown"}
           </div>
 
           <Button

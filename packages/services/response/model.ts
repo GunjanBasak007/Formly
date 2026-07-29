@@ -22,3 +22,13 @@ export const getResponseInput = z.object({
 
 export type GetResponseInputType =
     z.infer<typeof getResponseInput>;
+
+
+//Dashboard Recent Responses
+
+export const getRecentResponsesInput = z.object({
+  userId: z.string().uuid().describe("UUID of the user"),
+});
+
+export type GetRecentResponsesInputType =
+  z.infer<typeof getRecentResponsesInput>;

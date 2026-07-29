@@ -1,31 +1,46 @@
 import { ArrowRight } from "lucide-react";
 
+import { useGetRecentResponses } from "~/hooks/api/response";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 
 import { DASHBOARD_CONTENT } from "./constant";
 import { ResponseCard } from "./response-card";
 
-const RECENT_RESPONSES = [
-  {
-    respondent: "John Doe",
-    formTitle: "Customer Feedback Survey",
-    submittedAt: "2 minutes ago",
-  },
-  {
-    respondent: "Sarah Williams",
-    formTitle: "Job Application Form",
-    submittedAt: "18 minutes ago",
-  },
-  {
-    respondent: "Michael Brown",
-    formTitle: "Event Registration",
-    submittedAt: "1 hour ago",
-  },
-];
-
 export function DashboardRecentResponses() {
   const { recentResponses } = DASHBOARD_CONTENT.sections;
+
+  const {
+    data: responses,
+    isLoading,
+  } = useGetRecentResponses();
+
+  if (isLoading) {
+    return (
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold">
+              {recentResponses.title}
+            </h2>
+
+            <p className="text-muted-foreground">
+              {recentResponses.description}
+            </p>
+          </div>
+
+          <Button variant="ghost" className="rounded-xl">
+            View All
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+
+        <p className="text-muted-foreground">
+          Loading recent responses...
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section className="space-y-6">
@@ -46,12 +61,12 @@ export function DashboardRecentResponses() {
         </Button>
       </div>
 
-      {RECENT_RESPONSES.length > 0 ? (
+      {responses && responses.length > 0 ? (
         <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
-          {RECENT_RESPONSES.map((response) => (
+          {responses.map((response) => (
             <ResponseCard
-              key={`${response.respondent}-${response.formTitle}`}
-              {...response}
+              key={response.id}
+              response={response}
             />
           ))}
         </div>

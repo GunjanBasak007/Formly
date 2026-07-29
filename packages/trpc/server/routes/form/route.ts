@@ -14,6 +14,7 @@ import {
     getFormSubmissionsInputModel, getFormSubmissionsOutputModel,
     updateFieldOrderInputModel,updateFieldOrderOutputModel,
     deleteFormInputModel,deleteFormOutputModel,
+    getRecentFormsOutputModel,
 } from "./model";
 
 const TAGS = ["Form"];
@@ -56,7 +57,23 @@ export const formRouter = router({
             const forms = await formService.listFormsByUserId({ userId: ctx.user.id })
             return forms
         }),
-
+    
+    getRecentForms: authenticatedProcedure
+  .meta({
+    openapi: {
+      method: "GET",
+      path: getPath("/getRecentForms"),
+      tags: TAGS,
+      protect: true,
+    },
+  })
+  .input(z.undefined())
+  .output(getRecentFormsOutputModel)
+  .query(async ({ ctx }) => {
+    return formService.getRecentForms({
+      userId: ctx.user.id,
+    });
+  }),
 
     getFields: authenticatedProcedure.meta({
         openapi: {

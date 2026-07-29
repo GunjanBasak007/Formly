@@ -189,6 +189,7 @@ export const useDeleteField = (formId: string) => {
     }
 }
 
+
 export const useGetForm = (formId: string) => {
     const { data: form, error, isFetched, isFetching, isLoading, status } =
         trpc.form.getForm.useQuery({ formId })
@@ -235,6 +236,7 @@ export const useUpdatePublishStatus = () => {
     }
 }
 
+//for getting the form submission details
 export const useGetFormSubmissions = (formId: string) => {
     const { data: submissions, error, isFetched, isFetching, isLoading, status } =
         trpc.form.getFormSubmissions.useQuery({ formId })
@@ -275,6 +277,7 @@ export const useSubmitForm = () => {
     }
 }
 
+//for getting data of published form
 
 export const useGetPublishedForm = (formId: string) => {
     const {
@@ -325,5 +328,29 @@ export const useUpdateFieldOrder = (formId: string) => {
     isIdle,
     isSuccess,
     status,
+  };
+};
+
+//For getting recent forms
+
+export const useGetRecentForms = () => {
+  const {
+    data,
+    error,
+    isLoading,
+    isError,
+    isSuccess,
+    status,
+    refetch,
+  } = trpc.form.getRecentForms.useQuery();
+
+  return {
+    data,
+    error,
+    isLoading,
+    isError,
+    isSuccess,
+    status,
+    refetch,
   };
 };
