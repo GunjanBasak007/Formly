@@ -1,7 +1,7 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 
 import { useGetRecentForms } from "~/hooks/api/form";
-
+import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 
@@ -51,10 +51,16 @@ export function DashboardRecentForms() {
           </p>
         </div>
 
-        <Button variant="ghost" className="rounded-xl">
-          View All
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <Button
+            asChild
+            variant="ghost"
+            className="rounded-xl"
+          >
+            <Link href="/dashboard/forms">
+              View All
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
       </div>
 
       {recentForms && recentForms.length > 0 ? (
@@ -67,15 +73,20 @@ export function DashboardRecentForms() {
           ))}
         </div>
       ) : (
-        <Card className="rounded-2xl">
-          <CardContent className="flex flex-col items-center justify-center gap-3 py-16">
-            <h3 className="text-xl font-semibold">
-              {section.empty}
-            </h3>
+        <Card className="rounded-2xl border-dashed">
+          <CardContent className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+            <FileText className="h-12 w-12 text-muted-foreground" />
 
-            <Button className="rounded-xl">
-              Create Form
-            </Button>
+            <div className="space-y-2">
+              <h3 className="text-xl font-semibold">
+                No forms yet
+              </h3>
+
+              <p className="max-w-sm text-muted-foreground">
+                Create your first form to start collecting
+                responses.
+              </p>
+            </div>
           </CardContent>
         </Card>
       )}

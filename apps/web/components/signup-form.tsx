@@ -40,13 +40,11 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
   });
 
   const onSubmit: SubmitHandler<SignupFormValues> = async (values) => {
-    console.log(values);
-    const { id } = await createUserWithEmailAndPasswordAsync({
+    await createUserWithEmailAndPasswordAsync({
       email: values.email,
       fullName: values.name,
       password: values.password,
     });
-    console.log(`User created with ID=${id}`);
     router.replace("/dashboard");
   };
 
@@ -108,7 +106,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="h-12 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/25"
+            className="h-12 rounded-xl bg-linear-to-r from-violet-600 via-indigo-600 to-cyan-500 font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/25"
           >
             {isSubmitting ? "Creating Account..." : "Create Account"}
           </Button>

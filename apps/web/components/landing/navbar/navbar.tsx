@@ -1,5 +1,5 @@
 import { Container } from "~/components/shared/container";
-
+import { ThemeToggle } from "~/components/theme-toggle";
 import { MobileMenu } from "./mobile-menu";
 import { NavbarActions } from "./navbar-actions";
 import { NavbarLinks } from "./navbar-links";
@@ -13,10 +13,11 @@ export function Navbar() {
 
         <NavbarLinks />
 
-        <div className="flex items-center gap-2">
+       <div className="flex items-center gap-2">
+          <ThemeToggle />
           <NavbarActions />
           <MobileMenu />
-        </div>
+      </div>
       </Container>
     </header>
   );

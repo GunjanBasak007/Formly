@@ -1,8 +1,11 @@
-import { AppSidebar } from "~/components/app-sidebar"
-import { SiteHeader } from "~/components/site-header"
-import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar"
+import { AppSidebar } from "~/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <SidebarProvider
       style={
@@ -13,15 +16,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       }
     >
       <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SiteHeader />
 
-          <main className="flex flex-1 flex-col bg-muted/20 px-8 py-8">
-            <div className="@container/main mx-auto flex w-full max-w-7xl flex-1 flex-col gap-12">
-              {children}
-            </div>
-          </main>
-        </SidebarInset>
+      <SidebarInset>
+        <main className="flex flex-1 flex-col bg-muted/20 px-8 pt-2 pb-8">
+          <div className="@container/main mx-auto flex w-full max-w-7xl flex-1 flex-col gap-12">
+            {children}
+          </div>
+        </main>
+      </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

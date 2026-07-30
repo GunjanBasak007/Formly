@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
@@ -26,7 +27,7 @@ export function DashboardHeader() {
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-4xl font-extrabold tracking-tight">
+          <h1 className="text-[2.5rem] font-extrabold tracking-tight">
             {title}
           </h1>
 
@@ -39,21 +40,27 @@ export function DashboardHeader() {
       {/* Right */}
       <div className="flex flex-wrap items-center gap-3">
         <Button
+          asChild
           variant="outline"
           size="lg"
           className="rounded-xl"
         >
-          <SecondaryIcon className="mr-2 h-4 w-4" />
-          {secondaryAction.label}
+          <Link href="/dashboard/analytics">
+            <SecondaryIcon className="mr-2 h-4 w-4" />
+            {secondaryAction.label}
+          </Link>
         </Button>
 
         <Button
+          asChild
           size="lg"
           className="rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 text-white hover:opacity-95"
         >
-          <PrimaryIcon className="mr-2 h-4 w-4" />
-          {primaryAction.label}
-          <ArrowRight className="ml-2 h-4 w-4" />
+          <Link href="/dashboard/forms">
+            <PrimaryIcon className="mr-2 h-4 w-4" />
+            {primaryAction.label}
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
         </Button>
       </div>
     </section>

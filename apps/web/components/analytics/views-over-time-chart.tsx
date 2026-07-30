@@ -35,100 +35,139 @@ type Props = {
   data: ViewOverTime[];
 };
 
+const cardClassName = `
+  group
+  rounded-2xl
+  border
+  border-border/60
+  shadow-md
+  transition-all
+  duration-300
+  hover:-translate-y-1
+  hover:border-violet-300
+  hover:shadow-xl
+  dark:hover:border-violet-500/40
+`;
+
 export function ViewsOverTimeChart({ data }: Props) {
-  
   if (data.length === 0) {
+    return (
+      <Card className={cardClassName}>
+        <CardHeader>
+          <CardTitle className="text-xl font-bold tracking-tight">
+            Views Over Time
+          </CardTitle>
+
+          <CardDescription className="text-muted-foreground">
+            Last 30 days
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="h-[380px]">
+          <Empty className="h-full">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Inbox />
+              </EmptyMedia>
+
+              <EmptyTitle>No views yet</EmptyTitle>
+
+              <EmptyDescription>
+                Share your published form to start tracking views
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
-    <Card>
+    <Card className={cardClassName}>
       <CardHeader>
-        <CardTitle>Views Over Time</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-xl font-bold tracking-tight">
+          Views Over Time
+        </CardTitle>
+
+        <CardDescription className="text-muted-foreground">
           Last 30 days
         </CardDescription>
       </CardHeader>
-
-      <CardContent className="h-[380px]">
-        <Empty className="h-full">
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <Inbox />
-            </EmptyMedia>
-
-            <EmptyTitle>No views yet</EmptyTitle>
-
-            <EmptyDescription>
-              Share your published form to start tracking views
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
-      </CardContent>
-    </Card>
-  );
-}
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Views Over Time</CardTitle>
-        <CardDescription>
-          Last 30 days
-        </CardDescription>
-      </CardHeader>
-
-      
 
       <CardContent>
         <ResponsiveContainer width="100%" height={380}>
-
           <LineChart
-                data={data}
-                margin={{
-                    top: 10,
-                    right: 20,
-                    left: 0,
-                    bottom: 10,
-                }}
-        >
+            data={data}
+            margin={{
+              top: 10,
+              right: 20,
+              left: 8,
+              bottom: 10,
+            }}
+          >
             <CartesianGrid
-                strokeDasharray="4 4"
-                vertical={false}
+              stroke="#ede9fe"
+              strokeDasharray="4 4"
+              vertical={false}
             />
 
             <XAxis
-                dataKey="date"
-                tickLine={false}
-                tickFormatter={(value) =>
-                    new Date(value).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    })
-                }
+              dataKey="date"
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(value) =>
+                new Date(value).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                })
+              }
             />
 
             <YAxis
-                allowDecimals={false}
-                tickLine={false}
+              allowDecimals={false}
+              tickLine={false}
+              axisLine={false}
+              width={40}
             />
 
             <Tooltip
-                labelFormatter={(value) =>
-                    new Date(value).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                    })
-                }
+              contentStyle={{
+                borderRadius: "14px",
+                border: "1px solid #ddd6fe",
+                boxShadow: "0 12px 30px rgba(124, 58, 237, 0.15)",
+              }}
+              cursor={{
+                stroke: "#7c3aed",
+                strokeOpacity: 0.15,
+              }}
+              labelFormatter={(value) =>
+                new Date(value).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })
+              }
             />
 
             <Line
-                type="natural"
-                dataKey="views"
-                stroke="#2563eb"
-                strokeWidth={3}
-                dot={{ r: 4 }}
-                activeDot={{ r: 6 }}
-                isAnimationActive
-                animationDuration={700}
+              type="natural"
+              dataKey="views"
+              stroke="#7c3aed"
+              strokeWidth={3}
+              dot={{
+                r: 4,
+                fill: "#7c3aed",
+                stroke: "#ffffff",
+                strokeWidth: 2,
+              }}
+              activeDot={{
+                r: 7,
+                fill: "#7c3aed",
+                stroke: "#ffffff",
+                strokeWidth: 3,
+              }}
+              isAnimationActive
+              animationDuration={900}
             />
           </LineChart>
         </ResponsiveContainer>

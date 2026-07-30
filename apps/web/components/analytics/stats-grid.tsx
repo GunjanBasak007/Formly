@@ -18,13 +18,42 @@ export function StatsGrid({
   totalViews,
 }: StatsGridProps) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <StatsCard title="Total Forms" value={totalForms} />
-        <StatsCard title="Published Forms" value={publishedForms} />
-        <StatsCard title="Draft Forms" value={draftForms} />
-        <StatsCard title="Responses" value={totalResponses} />
-        <StatsCard title="Response Rate" value={`${Number(responseRate).toFixed(1)}%`} />
-        <StatsCard title="Total Views" value={totalViews} />
+    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <StatsCard
+        title="Total Forms"
+        value={totalForms}
+        description="Forms you've created"
+      />
+
+      <StatsCard
+        title="Published Forms"
+        value={publishedForms}
+        description="Currently live"
+      />
+
+      <StatsCard
+        title="Draft Forms"
+        value={draftForms}
+        description="Not published yet"
+      />
+
+      <StatsCard
+        title="Responses"
+        value={totalResponses}
+        description="Submissions received"
+      />
+
+      <StatsCard
+        title="Response Rate"
+        value={`${Number(responseRate).toFixed(1)}%`}
+        description="Views converted"
+      />
+
+      <StatsCard
+        title="Total Views"
+        value={totalViews}
+        description="Overall impressions"
+      />
     </div>
   );
 }

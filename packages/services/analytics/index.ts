@@ -111,8 +111,6 @@ const draftForms = draftCount[0]?.total ?? 0;
       )
       .groupBy(sql`DATE(${formSubmissionTable.createdAt})`)
       .orderBy(sql`DATE(${formSubmissionTable.createdAt})`);
-
-      console.log("getResponsesOverTime called");
       return responsesOverTime;
     },
 

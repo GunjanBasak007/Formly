@@ -1,41 +1,38 @@
-import { Bell, Search } from "lucide-react";
+"use client";
 
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
+import type { ReactNode } from "react";
 
-export function SiteHeader() {
+import { ThemeToggle } from "~/components/theme-toggle";
+
+type SiteHeaderProps = {
+  title: string;
+  description?: string;
+  action?: ReactNode;
+};
+
+export function SiteHeader({
+  title,
+  description,
+  action,
+}: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-8">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight">
-            Dashboard
-          </h1>
+    <div className="flex flex-col gap-4 border-b pb-6 md:flex-row md:items-center md:justify-between">
+      <div>
+        <h1 className="text-4xl font-bold tracking-tight">
+          {title}
+        </h1>
 
-          <p className="text-sm text-muted-foreground">
-            Manage your forms and workspace.
+        {description && (
+          <p className="mt-2 text-muted-foreground">
+            {description}
           </p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="relative hidden md:block">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
-            <Input
-              placeholder="Search..."
-              className="w-64 rounded-xl pl-10"
-            />
-          </div>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-xl"
-          >
-            <Bell className="h-5 w-5" />
-          </Button>
-        </div>
+        )}
       </div>
-    </header>
+
+      <div className="flex items-center gap-3 shrink-0">
+        <ThemeToggle />
+        {action}
+      </div>
+    </div>
   );
 }

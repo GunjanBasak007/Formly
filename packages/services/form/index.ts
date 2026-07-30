@@ -222,17 +222,7 @@ public async getFormById(payload: GetFormByIdInputType) {
     )
     .orderBy(desc(formsTable.updatedAt))
     .limit(3);
-
-  console.dir(forms, { depth: null });
-
-  if (forms.length > 0) {
-    console.log("responses:", forms[0]!.responses);
-    console.log("type:", typeof forms[0]!.responses);
-    console.log("updatedAt:", forms[0]!.updatedAt);
-    console.log("updatedAt type:", typeof forms[0]!.updatedAt);
-}
-
-  return forms;
+    return forms;
 }
 }
 

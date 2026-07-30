@@ -55,15 +55,15 @@ export function LoginForm({
       {...props}
     >
       <FieldGroup>
-        <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-3xl font-extrabold tracking-tight">
-            Welcome back
-          </h1>
+       <div className="flex flex-col items-center gap-1 text-center">
+  <h1 className="text-xl font-semibold tracking-tight">
+    Welcome back
+  </h1>
 
-          <p className="text-sm text-muted-foreground">
-            Sign in to continue building beautiful forms.
-          </p>
-        </div>
+  <p className="text-xs text-muted-foreground">
+    Sign in to continue building beautiful forms.
+  </p>
+</div>
 
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>

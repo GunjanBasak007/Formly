@@ -6,13 +6,14 @@ import { DashboardHeader } from "./dashboard-header";
 import { DashboardRecentForms } from "./dashboard-recent-forms";
 import { DashboardRecentResponses } from "./dashboard-recent-responses";
 import { DashboardStats } from "./dashboard-stats";
+import { DashboardSkeleton } from "./dashboard-skeleton";
 
 export function Dashboard() {
   const { analytics, isLoading } = useGetDashboardStats();
 
   if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  return <DashboardSkeleton />;
+}
 
   return (
     <div className="space-y-12">

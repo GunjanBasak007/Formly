@@ -1,5 +1,7 @@
 "use client";
-
+import { Button } from "~/components/ui/button";
+import { Plus } from "lucide-react";
+import { SiteHeader } from "~/components/site-header";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import Link from "next/link";
@@ -8,9 +10,10 @@ import {
   PencilIcon,
   Trash2,
   FileText,
+  Calendar,
+  MessageSquare,
 } from "lucide-react";
 
-import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -93,23 +96,58 @@ export default function FormsPage() {
   );
 
   return (
-    <div className="p-6 flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Forms</h1>
-
-        <Button onClick={() => setOpen(true)}>
+  <>
+  <div className="flex flex-col gap-8 p-8">
+    <SiteHeader
+      title="Forms"
+      description="Create, organize and monitor all your forms."
+      action={
+        <Button
+            onClick={() => setOpen(true)}
+            className="
+              rounded-xl
+              bg-linear-to-r
+              from-violet-600
+              via-indigo-600
+              to-cyan-500
+              text-white
+              shadow-lg
+              transition-colors
+              duration-300
+              hover:scale-105
+              hover:shadow-violet-500/25
+            "
+          >
+          <Plus className="mr-2 h-4 w-4" />
           Create Form
         </Button>
-      </div>
+      }
+    />
 
-      <div className="rounded-lg border overflow-hidden">
+      <div className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-lg ring-1 ring-border/40 transition-all duration-300 hover:shadow-xl">
         <Table>
-          <TableHeader className="bg-muted">
+          <TableHeader className="bg-violet-50/60 dark:bg-violet-950/20">
             <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead>Responses</TableHead>
+              <TableHead>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  <FileText className="h-4 w-4" />
+                  Form
+                </div>
+              </TableHead>
+
+              <TableHead>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  <Calendar className="h-4 w-4" />
+                  Created
+                </div>
+              </TableHead>
+
+              <TableHead>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  <MessageSquare className="h-4 w-4" />
+                  Responses
+                </div>
+              </TableHead>
               <TableHead className="w-16" />
             </TableRow>
           </TableHeader>
@@ -118,7 +156,7 @@ export default function FormsPage() {
             {isLoading ? (
               <TableRow>
                 <TableCell
-                  colSpan={5}
+                  colSpan={4}
                   className="h-24 text-center text-muted-foreground"
                 >
                   Loading...
@@ -126,34 +164,86 @@ export default function FormsPage() {
               </TableRow>
             ) : !forms || forms.length === 0 ? (
               <TableRow>
-                <TableCell
-                  colSpan={5}
-                  className="h-24 text-center text-muted-foreground"
-                >
-                  No forms yet. Create your first one.
-                </TableCell>
+                <TableRow>
+                  <TableCell colSpan={4} className="py-16">
+                    <div className="flex flex-col items-center justify-center gap-4 text-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-100 text-violet-600 dark:bg-violet-950/30">
+                        <FileText className="h-8 w-8" />
+                      </div>
+
+                      <div>
+                        <h3 className="text-xl font-semibold">
+                          No forms yet
+                      </h3>
+
+                        <p className="mt-2 text-muted-foreground">
+                          Create your first form to start collecting responses.
+                        </p>
+                      </div>
+
+                      <Button
+                        onClick={() => setOpen(true)}
+                        className="
+                          rounded-xl
+                          bg-linear-to-r
+                          from-violet-600
+                          via-indigo-600
+                          to-cyan-500
+                        "
+                      >
+                        <Plus className="mr-2 h-4 w-4" />
+                        Create Form
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
               </TableRow>
             ) : (
               forms.map((form) => (
-                <TableRow key={form.id}>
-                  <TableCell className="font-medium">
-                    {form.title}
+                <TableRow
+                  key={form.id}
+                  className="
+                    group
+                    transition-all
+                    duration-300
+                    hover:bg-violet-50/60
+                    dark:hover:bg-violet-950/20
+                    hover:shadow-sm
+                    hover:translate-x-1
+                  "
+                >
+                  <TableCell>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-base font-semibold text-foreground transition-colors group-hover:text-violet-600">
+                        {form.title}
+                      </span>
+
+                     <span className="italic text-muted-foreground/70">
+                        {form.description?.trim() || "No description provided"}
+                      </span>
+                    </div>
                   </TableCell>
 
-                  <TableCell className="text-muted-foreground">
-                    {form.description ?? "—"}
-                  </TableCell>
-
-                  <TableCell className="text-muted-foreground text-sm">
+                  <TableCell className="text-sm whitespace-nowrap text-muted-foreground">
                     {form.createdAt
-                      ? new Date(form.createdAt).toLocaleDateString()
+                      ? new Intl.DateTimeFormat("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    }).format(new Date(form.createdAt))
                       : "—"}
                   </TableCell>
 
                   <TableCell>
                     <Link
                       href={`/dashboard/forms/${form.id}/submissions`}
-                      className="text-primary hover:underline"
+                      className="
+                        font-medium
+                        text-violet-600
+                        transition-all
+                        hover:text-violet-700
+                        hover:underline
+                        "
                     >
                       {responseStats.get(form.id) ?? 0}
                     </Link>
@@ -162,7 +252,18 @@ export default function FormsPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="
+                            opacity-70
+                            transition-all
+                            duration-300
+                            group-hover:opacity-100
+                            hover:bg-violet-100
+                            dark:hover:bg-violet-900/30
+                          "
+                        >
                           <MoreHorizontal className="size-4" />
                           <span className="sr-only">
                             Open menu
@@ -170,28 +271,31 @@ export default function FormsPage() {
                         </Button>
                       </DropdownMenuTrigger>
 
-                      <DropdownMenuContent align="end">
+                      <DropdownMenuContent
+                        align="end"
+                        className="w-48 rounded-xl border-border/60 shadow-xl"
+                      >
                         <DropdownMenuItem
                           onSelect={(e) => e.preventDefault()}
                           asChild
                         >
-                          <Link
-                            href={`/dashboard/forms/${form.id}`}
-                          >
+                          <Link href={`/dashboard/forms/${form.id}`}>
                             <PencilIcon className="mr-2 h-4 w-4" />
                             Edit
                           </Link>
                         </DropdownMenuItem>
 
-                      <DropdownMenuItem
-  onSelect={(e) => e.preventDefault()}
-  asChild
->
-  <Link href={`/dashboard/forms/${form.id}/submissions`}>
-    <FileText className="mr-2 h-4 w-4" />
-    Responses
-  </Link>
-</DropdownMenuItem>
+                        <DropdownMenuItem
+                          onSelect={(e) => e.preventDefault()}
+                          asChild
+                        >
+                          <Link
+                            href={`/dashboard/forms/${form.id}/submissions`}
+                          >
+                            <FileText className="mr-2 h-4 w-4" />
+                            Responses
+                          </Link>
+                        </DropdownMenuItem>
 
                         <DropdownMenuItem
                           onClick={() => {
@@ -217,9 +321,15 @@ export default function FormsPage() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="rounded-3xl border-border/60 bg-background shadow-2xl">
           <DialogHeader>
-            <DialogTitle>Create a new form</DialogTitle>
+            <DialogTitle className="text-2xl font-bold tracking-tight">
+              Create a new form
+            </DialogTitle>
+
+            <p className="text-sm text-muted-foreground">
+              Give your form a name and an optional description.
+            </p>
           </DialogHeader>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -228,6 +338,7 @@ export default function FormsPage() {
                 <FieldLabel htmlFor="title">Title</FieldLabel>
 
                 <Input
+                className="rounded-xl"
                   id="title"
                   placeholder="e.g. Customer Feedback"
                   {...register("title", {
@@ -243,6 +354,7 @@ export default function FormsPage() {
                 </FieldLabel>
 
                 <Textarea
+                  className="min-h-28 rounded-xl resize-none"
                   id="description"
                   placeholder="What is this form for? (optional)"
                   {...register("description", {
@@ -262,6 +374,7 @@ export default function FormsPage() {
               <Button
                 type="button"
                 variant="outline"
+                className="rounded-xl"
                 onClick={() => {
                   reset();
                   setOpen(false);
@@ -271,9 +384,22 @@ export default function FormsPage() {
               </Button>
 
               <Button
-                type="submit"
-                disabled={isSubmitting}
-              >
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="
+                    rounded-xl
+                    bg-linear-to-r
+                    from-violet-600
+                    via-indigo-600
+                    to-cyan-500
+                    text-white
+                    transition-all
+                    duration-300
+                    hover:scale-[1.02]
+                    hover:shadow-lg
+                    hover:shadow-violet-500/20
+                  "
+                >
                 {isSubmitting
                   ? "Creating..."
                   : "Create Form"}
@@ -287,9 +413,11 @@ export default function FormsPage() {
         open={deleteOpen}
         onOpenChange={setDeleteOpen}
       >
-        <DialogContent>
+        <DialogContent className="rounded-3xl border-border/60 shadow-2xl">
           <DialogHeader>
-            <DialogTitle>Delete Form</DialogTitle>
+            <DialogTitle className="text-2xl font-bold">
+              Delete Form
+            </DialogTitle>
           </DialogHeader>
 
           <p className="text-sm text-muted-foreground">
@@ -306,6 +434,7 @@ export default function FormsPage() {
           <DialogFooter>
             <Button
               variant="outline"
+              className="rounded-xl"
               onClick={() => {
                 setDeleteOpen(false);
                 setSelectedForm(null);
@@ -316,6 +445,7 @@ export default function FormsPage() {
 
             <Button
               variant="destructive"
+              className="rounded-xl"
               onClick={async () => {
                 if (!selectedForm) return;
 
@@ -333,5 +463,6 @@ export default function FormsPage() {
         </DialogContent>
       </Dialog>
     </div>
-  );
+  </>
+);
 }

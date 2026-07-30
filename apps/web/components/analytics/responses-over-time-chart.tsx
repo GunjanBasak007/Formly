@@ -35,13 +35,30 @@ type Props = {
   data: ResponseOverTime[];
 };
 
+const cardClassName = `
+  group
+  rounded-2xl
+  border
+  border-border/60
+  shadow-md
+  transition-all
+  duration-300
+  hover:-translate-y-1
+  hover:border-violet-300
+  hover:shadow-xl
+  dark:hover:border-violet-500/40
+`;
+
 export function ResponsesOverTimeChart({ data }: Props) {
   if (data.length === 0) {
     return (
-      <Card>
+      <Card className={cardClassName}>
         <CardHeader>
-          <CardTitle>Responses Over Time</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-xl font-bold tracking-tight">
+            Responses Over Time
+          </CardTitle>
+
+          <CardDescription className="text-muted-foreground">
             Last 30 days
           </CardDescription>
         </CardHeader>
@@ -66,10 +83,13 @@ export function ResponsesOverTimeChart({ data }: Props) {
   }
 
   return (
-    <Card>
+    <Card className={cardClassName}>
       <CardHeader>
-        <CardTitle>Responses Over Time</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-xl font-bold tracking-tight">
+          Responses Over Time
+        </CardTitle>
+
+        <CardDescription className="text-muted-foreground">
           Last 30 days
         </CardDescription>
       </CardHeader>
@@ -81,11 +101,12 @@ export function ResponsesOverTimeChart({ data }: Props) {
             margin={{
               top: 10,
               right: 20,
-              left: 0,
+              left: 8,
               bottom: 10,
             }}
           >
             <CartesianGrid
+              stroke="#ede9fe"
               strokeDasharray="4 4"
               vertical={false}
             />
@@ -93,6 +114,7 @@ export function ResponsesOverTimeChart({ data }: Props) {
             <XAxis
               dataKey="date"
               tickLine={false}
+              axisLine={false}
               tickFormatter={(value) =>
                 new Date(value).toLocaleDateString("en-US", {
                   month: "short",
@@ -104,9 +126,20 @@ export function ResponsesOverTimeChart({ data }: Props) {
             <YAxis
               allowDecimals={false}
               tickLine={false}
+              axisLine={false}
+              width={40}
             />
 
             <Tooltip
+              contentStyle={{
+                borderRadius: "14px",
+                border: "1px solid #ddd6fe",
+                boxShadow: "0 12px 30px rgba(124, 58, 237, 0.15)",
+              }}
+              cursor={{
+                stroke: "#7c3aed",
+                strokeOpacity: 0.15,
+              }}
               labelFormatter={(value) =>
                 new Date(value).toLocaleDateString("en-US", {
                   month: "short",
@@ -119,12 +152,22 @@ export function ResponsesOverTimeChart({ data }: Props) {
             <Line
               type="natural"
               dataKey="responses"
-              stroke="#2563eb"
+              stroke="#7c3aed"
               strokeWidth={3}
-              dot={{ r: 4 }}
-              activeDot={{ r: 6 }}
+              dot={{
+                r: 4,
+                fill: "#7c3aed",
+                stroke: "#ffffff",
+                strokeWidth: 2,
+              }}
+              activeDot={{
+                r: 7,
+                fill: "#7c3aed",
+                stroke: "#ffffff",
+                strokeWidth: 3,
+              }}
               isAnimationActive
-              animationDuration={700}
+              animationDuration={900}
             />
           </LineChart>
         </ResponsiveContainer>

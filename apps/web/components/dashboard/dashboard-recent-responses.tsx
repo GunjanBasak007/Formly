@@ -1,7 +1,4 @@
-import { ArrowRight } from "lucide-react";
-
 import { useGetRecentResponses } from "~/hooks/api/response";
-import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 
 import { DASHBOARD_CONTENT } from "./constant";
@@ -28,11 +25,6 @@ export function DashboardRecentResponses() {
               {recentResponses.description}
             </p>
           </div>
-
-          <Button variant="ghost" className="rounded-xl">
-            View All
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
         </div>
 
         <p className="text-muted-foreground">
@@ -54,11 +46,6 @@ export function DashboardRecentResponses() {
             {recentResponses.description}
           </p>
         </div>
-
-        <Button variant="ghost" className="rounded-xl">
-          View All
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
       </div>
 
       {responses && responses.length > 0 ? (
