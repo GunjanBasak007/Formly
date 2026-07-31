@@ -1,79 +1,117 @@
 import { userService } from "../../services";
 import { authenticatedProcedure, publicProcedure, router } from "../../trpc";
-import { getAuthenticationCookie, setAuthenticationCookie } from "../../utils/cookie";
+import {
+  clearAuthenticationCookie,
+  setAuthenticationCookie,
+} from "../../utils/cookie";
 import { generatePath } from "../../utils/path-generator";
-import { createUserWithEmailAndPasswordInputModel, createUserWithEmailAndPasswordOutputModel, getLoggedInUserInfoInputModel, getLoggedInUserInfoOutputModel, signInUserWithEmailAndPasswordInputModel, signInUserWithEmailAndPasswordOutputModel } from "./model";
+import {
+  createUserWithEmailAndPasswordInputModel,
+  createUserWithEmailAndPasswordOutputModel,
+  getLoggedInUserInfoInputModel,
+  getLoggedInUserInfoOutputModel,
+  logoutUserInputModel,
+  logoutUserOutputModel,
+  signInUserWithEmailAndPasswordInputModel,
+  signInUserWithEmailAndPasswordOutputModel,
+} from "./model";
 
 const TAGS = ["Authentication"];
 const getPath = generatePath("/authentication");
 
 export const authRouter = router({
-  createUserWithEmailAndPassword: publicProcedure.meta({
-    openapi: {
-      method: 'POST',
-      path: getPath('/createUserWithEmailAndPassword'),
-      tags: TAGS
-    }
-  })
+  createUserWithEmailAndPassword: publicProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: getPath("/createUserWithEmailAndPassword"),
+        tags: TAGS,
+      },
+    })
     .input(createUserWithEmailAndPasswordInputModel)
     .output(createUserWithEmailAndPasswordOutputModel)
     .mutation(async ({ input, ctx }) => {
-      const { fullName, email, password } = input
+      const { fullName, email, password } = input;
 
-      const { id, token } = await userService.createUserWithEmailAndPassword({
-        fullName, email, password
-      })
+      const { id, token } =
+        await userService.createUserWithEmailAndPassword({
+          fullName,
+          email,
+          password,
+        });
 
-      setAuthenticationCookie(ctx, token)
+      setAuthenticationCookie(ctx, token);
 
       return {
-        id
-      }
+        id,
+      };
     }),
 
-  signInUserWithEmailAndPassword: publicProcedure.meta({
-    openapi: {
-      method: 'POST',
-      path: getPath('/signInUserWithEmailAndPassword'),
-      tags: TAGS
-    }
-  })
+  signInUserWithEmailAndPassword: publicProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: getPath("/signInUserWithEmailAndPassword"),
+        tags: TAGS,
+      },
+    })
     .input(signInUserWithEmailAndPasswordInputModel)
     .output(signInUserWithEmailAndPasswordOutputModel)
     .mutation(async ({ input, ctx }) => {
-      const { email, password } = input
+      const { email, password } = input;
 
-      const { id, token } = await userService.signInUserWithEmailAndPassword({
-        email, password
-      })
+      const { id, token } =
+        await userService.signInUserWithEmailAndPassword({
+          email,
+          password,
+        });
 
-      setAuthenticationCookie(ctx, token)
+      setAuthenticationCookie(ctx, token);
 
       return {
-        id
-      }
+        id,
+      };
     }),
 
   getLoggedInUserInfo: authenticatedProcedure
     .meta({
       openapi: {
-        method: 'POST',
-        path: getPath('/getLoggedInUserInfo'),
+        method: "POST",
+        path: getPath("/getLoggedInUserInfo"),
         tags: TAGS,
-        protect: true
-      }
+        protect: true,
+      },
     })
     .input(getLoggedInUserInfoInputModel)
     .output(getLoggedInUserInfoOutputModel)
     .query(async ({ ctx }) => {
-
-      const { id, email, fullName, profileImageUrl } = await userService.getUserInfoById(ctx.user.id)
+      const { id, email, fullName, profileImageUrl } =
+        await userService.getUserInfoById(ctx.user.id);
 
       return {
         id,
         email,
         fullName,
-        profileImageUrl
-      }
+        profileImageUrl,
+      };
+    }),
+
+  logoutUser: authenticatedProcedure
+    .meta({
+      openapi: {
+        method: "POST",
+        path: getPath("/logoutUser"),
+        tags: TAGS,
+        protect: true,
+      },
     })
+    .input(logoutUserInputModel)
+    .output(logoutUserOutputModel)
+    .mutation(async ({ ctx }) => {
+      clearAuthenticationCookie(ctx);
+
+      return {
+        success: true,
+      };
+    }),
 });

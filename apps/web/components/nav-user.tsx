@@ -1,6 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { IconDotsVertical, IconLogout } from "@tabler/icons-react";
+
+import { useLogout } from "~/hooks/api/auth";
 
 import {
   Avatar,
@@ -32,6 +35,21 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+
+  const router = useRouter();
+
+  const { logoutUserAsync } = useLogout();
+
+  const handleLogout = async () => {
+    try {
+      await logoutUserAsync({});
+
+      router.replace("/");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -96,7 +114,7 @@ export function NavUser({
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               <span>Log out</span>
             </DropdownMenuItem>

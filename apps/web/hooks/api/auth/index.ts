@@ -62,6 +62,36 @@ export const useSignIn = () => {
     }
 }
 
+export const useLogout = () => {
+  const utils = trpc.useUtils();
+
+  const {
+    mutateAsync: logoutUserAsync,
+    mutate: logoutUser,
+    error,
+    failureCount,
+    isError,
+    isIdle,
+    isSuccess,
+    status,
+  } = trpc.auth.logoutUser.useMutation({
+    onSuccess: async () => {
+      await utils.auth.getLoggedInUserInfo.invalidate();
+    },
+  });
+
+    return {
+        logoutUserAsync,
+        logoutUser,
+        error,
+        failureCount,
+        isError,
+        isIdle,
+        isSuccess,
+        status,
+    };
+};
+
 export const useUser = () => {
     const { data: user, error, isFetched, isFetching, isLoading, status } = trpc.auth.getLoggedInUserInfo.useQuery()
 
