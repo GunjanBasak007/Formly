@@ -5,12 +5,10 @@ import Link from "next/link";
 import {
   IconChartBar,
   IconDashboard,
-  IconSettings,
   IconClipboardText,
 } from "@tabler/icons-react";
 
 import { NavMain } from "~/components/nav-main";
-import { NavSecondary } from "~/components/nav-secondary";
 import { NavUser } from "~/components/nav-user";
 import {
   Sidebar,
@@ -29,28 +27,20 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: IconDashboard,
-  },
-  {
-    title: "Forms",
-    url: "/dashboard/forms",
-    icon: IconClipboardText,
-  },
-  {
-    title: "Analytics",
-    url: "/dashboard/analytics",
-    icon: IconChartBar,
-    },
-  ],
-
-  navSecondary: [
     {
-      title: "Settings",
-      url: "/dashboard/settings",
-      icon: IconSettings,
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: IconDashboard,
+    },
+    {
+      title: "Forms",
+      url: "/dashboard/forms",
+      icon: IconClipboardText,
+    },
+    {
+      title: "Analytics",
+      url: "/dashboard/analytics",
+      icon: IconChartBar,
     },
   ],
 };
@@ -91,10 +81,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavSecondary
-          items={data.navSecondary}
-          className="mt-auto"
-        />
       </SidebarContent>
 
       <SidebarFooter>
