@@ -1,3 +1,4 @@
+import "dotenv/config"
 import express from "express";
 import { logger } from "@repo/logger";
 import cors from "cors";
@@ -20,7 +21,7 @@ const openApiDocument = generateOpenApiDocument(serverRouter, {
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.FORMLY_UI_URL,
     credentials: true
   }),
 );

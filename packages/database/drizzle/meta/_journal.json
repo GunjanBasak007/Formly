@@ -71,6 +71,13 @@
       "when": 1784616582590,
       "tag": "0009_old_scarlet_witch",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1785478618608,
+      "tag": "0010_early_the_initiative",
+      "breakpoints": true
     }
   ]
 }
