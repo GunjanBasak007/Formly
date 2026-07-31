@@ -14,17 +14,18 @@ export interface TRPCContext {
 
 }
 
-export async function createContext({
-    req, res
-}: CreateExpressContextOptions): Promise<TRPCContext> {
+export async function createContext({ req, res }: CreateExpressContextOptions) {
+    console.log("Cookies:", req.cookies);
+    console.log("Cookie Header:", req.headers.cookie);
 
-    const ctx: TRPCContext = {
+    const ctx = {
         createCookie: createCookieFactory(res),
         getCookie: getCookieFactory(req),
         clearCookie: clearCookieFactory(res),
-        user: undefined
-    }
+        user: undefined,
+    };
 
-    return ctx
+    return ctx;
 }
 export type Context = Awaited<ReturnType<typeof createContext>>;
+

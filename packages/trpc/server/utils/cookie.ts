@@ -10,9 +10,9 @@ const ONE_YEAR = 12 * ONE_MONTH;
 const defaultCookieOption: CookieOptions = {
     path: "/",
     httpOnly: true,
-    secure: false,
-    sameSite: "strict",
-    maxAge: ONE_YEAR, // One Year
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
+    maxAge: ONE_YEAR,
 };
 
 export function createCookieFactory(res: Response) {
@@ -33,7 +33,7 @@ export function getCookieFactory(req: Request) {
 
 export function clearCookieFactory(res: Response) {
     return function clearCookie(name: string) {
-        res.clearCookie(name);
+        res.clearCookie(name, defaultCookieOption);
     };
 }
 
