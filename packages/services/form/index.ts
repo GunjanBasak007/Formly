@@ -56,27 +56,6 @@ public async getFormById(payload: GetFormByIdInputType) {
 
     const { formId } = await getFormByIdInput.parseAsync(payload);
 
-    await db.transaction(async (tx) => {
-
-        await tx
-            .update(formsTable)
-            .set({
-                views: sql`${formsTable.views} + 1`,
-            })
-            .where(eq(formsTable.id, formId));
-
-            try {
-                await tx.insert(formViewEventsTable).values({
-                    formId,
-                });
-
-    
-            } catch (err) {
-                console.dir(err, { depth: null });
-                throw err;
-            }
-                });
-
         const rows = await db
             .select({
                     id: formsTable.id,
@@ -150,7 +129,22 @@ public async getFormById(payload: GetFormByIdInputType) {
     }
         public async getPublishedFormById(
             payload: GetFormByIdInputType
-        ) {
+            ) {
+            const { formId } = await getFormByIdInput.parseAsync(payload);
+
+            await db.transaction(async (tx) => {
+                await tx
+                .update(formsTable)
+                .set({
+                    views: sql`${formsTable.views} + 1`,
+                })
+                .where(eq(formsTable.id, formId));
+
+                await tx.insert(formViewEventsTable).values({
+                formId,
+                });
+            });
+
             const form = await this.getFormById(payload);
 
             if (!form) {
@@ -162,7 +156,7 @@ public async getFormById(payload: GetFormByIdInputType) {
             }
 
             return form;
-        }
+            }
 
         public async updateFieldOrder(
         payload: UpdateFieldOrderInputType
