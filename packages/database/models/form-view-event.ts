@@ -10,7 +10,9 @@ export const formViewEventsTable = pgTable("form_view_events", {
     id: uuid("id").primaryKey().defaultRandom(),
 
     formId: uuid("form_id")
-        .references(() => formsTable.id)
+        .references(() => formsTable.id, {
+        onDelete: "cascade",
+    })
         .notNull(),
 
     createdAt: timestamp("created_at")
