@@ -180,10 +180,9 @@ const onSubmit: SubmitHandler<CreateFormValues> = async (values) => {
                 </TableCell>
               </TableRow>
             ) : !forms || forms.length === 0 ? (
-              <TableRow>
                 <TableRow>
                   <TableCell colSpan={4} className="py-16">
-                    <div className="flex flex-col items-center justify-center gap-4 text-center">
+                    <div className="flex min-h-420px flex-col items-center justify-center gap-4 text-center">
                       <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-100 text-violet-600 dark:bg-violet-950/30">
                         <FileText className="h-8 w-8" />
                       </div>
@@ -213,7 +212,6 @@ const onSubmit: SubmitHandler<CreateFormValues> = async (values) => {
                       </Button>
                     </div>
                   </TableCell>
-                </TableRow>
               </TableRow>
             ) : (
               forms.map((form) => (
