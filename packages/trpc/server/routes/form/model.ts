@@ -13,7 +13,7 @@ export const listFormsOutputModel = z.array(
     z.object({
         id: z.string().describe('ID of the form'),
         title: z.string().describe('Title of the form'),
-        description: z.string().nullable().optional().describe('Description of the form'),
+        description: z.string().nullable().describe('Description of the form'),
         isPublished: z.boolean().describe('Publish status of the form'),
         createdAt: z.date().nullable().describe('Creation timestamp'),
         updatedAt: z.date().nullable().describe('Last updated timestamp'),
@@ -109,7 +109,7 @@ export const updateFieldOrderOutputModel = z.object({
 export const getFormOutputModel = z.object({
     id: z.string(),
     title: z.string(),
-    description: z.string().nullable().optional(),
+    description: z.string().nullable(),
     views: z.number(),
     isPublished: z.boolean(),
     createdAt: z.date().nullable(),

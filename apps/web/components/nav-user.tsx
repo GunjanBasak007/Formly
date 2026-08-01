@@ -64,10 +64,11 @@ export function NavUser({
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-lg">
                   {user.name
-                    .split(" ")
+                    .trim()
+                    .split(/\s+/)
                     .map((word) => word[0])
-                    .join("")
                     .slice(0, 2)
+                    .join("")
                     .toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -95,10 +96,11 @@ export function NavUser({
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">
                     {user.name
-                      .split(" ")
+                      .trim()
+                      .split(/\s+/)
                       .map((word) => word[0])
-                      .join("")
                       .slice(0, 2)
+                      .join("")
                       .toUpperCase()}
                   </AvatarFallback>
                 </Avatar>

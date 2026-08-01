@@ -3,20 +3,29 @@
   "ui": "tui",
   "tasks": {
     "build": {
-    "dependsOn": ["^build"],
-    "inputs": ["$TURBO_DEFAULT$", ".env*"],
-    "outputs": [".next/**", "!.next/cache/**"],
-    "env": ["SKIP_ENV_VALIDATION"]
-  },
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": [
+        "SKIP_ENV_VALIDATION",
+        "FORMLY_UI_URL"
+      ]
+    },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "env": [
+        "FORMLY_UI_URL"
+      ]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": [
+        "FORMLY_UI_URL"
+      ]
     },
     "db:generate": {},
     "db:migrate": {}

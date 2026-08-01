@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "~/components/ui/button";
 import { Plus } from "lucide-react";
+import { ShareFormDialog } from "~/components/forms/share-form-dialog";
 import { SiteHeader } from "~/components/site-header";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -12,6 +13,7 @@ import {
   FileText,
   Calendar,
   MessageSquare,
+  Share2,
 } from "lucide-react";
 
 import {
@@ -36,6 +38,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
@@ -54,6 +57,7 @@ type CreateFormValues = {
 export default function FormsPage() {
   const [open, setOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
 
   const [selectedForm, setSelectedForm] = useState<{
     id: string;
@@ -285,6 +289,20 @@ export default function FormsPage() {
                           </Link>
                         </DropdownMenuItem>
 
+                            <DropdownMenuItem
+                                onClick={() => {
+                                  setSelectedForm({
+                                  id: form.id,
+                                  title: form.title,
+                                  });
+
+                                  setShareDialogOpen(true);
+                                }}
+                              >
+                                <Share2 className="mr-2 h-4 w-4" />
+                                Share Form
+                              </DropdownMenuItem>
+
                         <DropdownMenuItem
                           onSelect={(e) => e.preventDefault()}
                           asChild
@@ -296,6 +314,8 @@ export default function FormsPage() {
                             Responses
                           </Link>
                         </DropdownMenuItem>
+
+                          <DropdownMenuSeparator />
 
                         <DropdownMenuItem
                           onClick={() => {
@@ -463,6 +483,12 @@ export default function FormsPage() {
         </DialogContent>
       </Dialog>
     </div>
+
+    <ShareFormDialog
+        open={shareDialogOpen}
+        onOpenChange={setShareDialogOpen}
+        form={selectedForm}
+    />
   </>
 );
 }

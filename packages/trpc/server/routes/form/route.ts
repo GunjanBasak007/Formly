@@ -148,7 +148,7 @@ export const formRouter = router({
   }),
 
 
-    getForm: publicProcedure.meta({
+    getForm: authenticatedProcedure.meta({
         openapi: {
             method: 'GET',
             path: getPath('/getForm'),
