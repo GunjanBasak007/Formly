@@ -181,11 +181,22 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
   const { id: formId } = use(params);
 
   const { form } = useGetForm(formId);
-  const { updatePublishStatusAsync } = useUpdatePublishStatus();
+  const {
+  updatePublishStatusAsync,
+  isPending: isPublishing,
+} = useUpdatePublishStatus();
 
   const { fields, isLoading } = useGetFields(formId);
-  const { createFieldAsync } = useCreateField(formId);
-  const { updateFieldAsync } = useUpdateField(formId);
+  const {
+  createFieldAsync,
+  isPending: isCreatingField,
+} = useCreateField(formId);
+
+  const {
+  updateFieldAsync,
+  isPending: isUpdatingField,
+} = useUpdateField(formId);
+
   const { deleteFieldAsync } = useDeleteField(formId);
   const { updateFieldOrderAsync } = useUpdateFieldOrder(formId);
 
@@ -351,8 +362,15 @@ const handleDragEnd = async (event: DragEndEvent) => {
     <Button
       variant={form?.isPublished ? "destructive" : "default"}
       onClick={handlePublish}
+      disabled={isPublishing}
     >
-      {form?.isPublished ? "Unpublish" : "Publish"}
+      {isPublishing
+        ? form?.isPublished
+          ? "Unpublishing..."
+          : "Publishing..."
+        : form?.isPublished
+          ? "Unpublish"
+          : "Publish"}
     </Button>
 
     <Button onClick={() => setCreateOpen(true)}>
@@ -398,7 +416,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
           <FieldForm
             defaultValues={DEFAULT_VALUES}
             onSubmit={handleCreate}
-            isSubmitting={false}
+            isSubmitting={isCreatingField}
             onCancel={() => setCreateOpen(false)}
             submitLabel="Add Field"
           />
@@ -426,7 +444,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
                 isRequired: editingField.isRequired,
               }}
               onSubmit={handleUpdate}
-              isSubmitting={false}
+              isSubmitting={isUpdatingField}
               onCancel={() => setEditingField(null)}
               submitLabel="Save Changes"
             />
