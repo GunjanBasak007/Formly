@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -39,14 +40,24 @@ export function LoginForm({
     },
   });
 
-  const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
+const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
+  try {
     await signInUserWithEmailAndPasswordAsync({
       email: values.email,
       password: values.password,
     });
 
+    toast.success("Welcome back!");
+
     router.replace("/dashboard");
-  };
+
+    router.refresh();
+  } catch (error) {
+    console.error(error);
+
+    toast.error("Invalid email or password.");
+  }
+};
 
   return (
     <form

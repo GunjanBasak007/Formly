@@ -11,6 +11,7 @@ export const useCreateForm = () => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status
     } = trpc.form.createForm.useMutation({
@@ -26,6 +27,7 @@ export const useCreateForm = () => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status
     }
@@ -42,6 +44,7 @@ export const useDeleteForm = () => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     } = trpc.form.deleteForm.useMutation({
@@ -56,6 +59,7 @@ export const useDeleteForm = () => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     };
@@ -105,6 +109,7 @@ export const useCreateField = (formId: string) => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     } = trpc.form.createField.useMutation({
@@ -120,6 +125,7 @@ export const useCreateField = (formId: string) => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     }
@@ -137,6 +143,7 @@ export const useUpdateField = (formId: string) => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     } = trpc.form.updateField.useMutation({
@@ -152,6 +159,7 @@ export const useUpdateField = (formId: string) => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     }
@@ -169,6 +177,7 @@ export const useDeleteField = (formId: string) => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     } = trpc.form.deleteField.useMutation({
@@ -184,6 +193,7 @@ export const useDeleteField = (formId: string) => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     }
@@ -216,6 +226,7 @@ export const useUpdatePublishStatus = () => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     } = trpc.form.updatePublishStatus.useMutation({
@@ -231,6 +242,7 @@ export const useUpdatePublishStatus = () => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     }
@@ -261,6 +273,7 @@ export const useSubmitForm = () => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     } = trpc.form.submitForm.useMutation()
@@ -272,6 +285,7 @@ export const useSubmitForm = () => {
         failureCount,
         isError,
         isIdle,
+        isPending,
         isSuccess,
         status,
     }
@@ -311,6 +325,7 @@ export const useUpdateFieldOrder = (formId: string) => {
     failureCount,
     isError,
     isIdle,
+    isPending,
     isSuccess,
     status,
   } = trpc.form.updateFieldOrder.useMutation({
@@ -326,6 +341,7 @@ export const useUpdateFieldOrder = (formId: string) => {
     failureCount,
     isError,
     isIdle,
+    isPending,
     isSuccess,
     status,
   };

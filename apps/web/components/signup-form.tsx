@@ -1,4 +1,6 @@
 "use client";
+import { toast } from "sonner";
+
 import Link from "next/link";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
@@ -39,14 +41,34 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
     },
   });
 
-  const onSubmit: SubmitHandler<SignupFormValues> = async (values) => {
+const onSubmit: SubmitHandler<SignupFormValues> = async (values) => {
+  if (values.password !== values.confirmPassword) {
+    toast.error("Passwords do not match.");
+    return;
+  }
+
+  try {
     await createUserWithEmailAndPasswordAsync({
       email: values.email,
       fullName: values.name,
       password: values.password,
     });
+
+    toast.success("Account created successfully!");
+
     router.replace("/dashboard");
-  };
+    router.refresh();
+  } catch (error) {
+    console.error(error);
+
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "Failed to create account.";
+
+    toast.error(message);
+  }
+};
 
   return (
     <form

@@ -1,4 +1,6 @@
 "use client";
+import { toast } from "sonner";
+
 import { SortableFieldCard } from "~/components/form-builder/SortableFieldCard";
 
 import { use, useEffect, useState } from "react";
@@ -182,7 +184,7 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
   const { updatePublishStatusAsync } = useUpdatePublishStatus();
 
   const { fields, isLoading } = useGetFields(formId);
-  const { createFieldAsync, isError: isCreateError, error: createError } = useCreateField(formId);
+  const { createFieldAsync } = useCreateField(formId);
   const { updateFieldAsync } = useUpdateField(formId);
   const { deleteFieldAsync } = useDeleteField(formId);
   const { updateFieldOrderAsync } = useUpdateFieldOrder(formId);
@@ -199,6 +201,7 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
 
 
   const handleCreate: SubmitHandler<FieldFormValues> = async (values) => {
+  try {
     await createFieldAsync({
       formId,
       label: values.label,
@@ -207,11 +210,26 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
       placeholder: values.placeholder || undefined,
       isRequired: values.isRequired,
     });
-    setCreateOpen(false);
-  };
 
-  const handleUpdate: SubmitHandler<FieldFormValues> = async (values) => {
-    if (!editingField) return;
+    toast.success("Field added successfully!");
+
+    setCreateOpen(false);
+  } catch (error) {
+    console.error(error);
+
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "Failed to add field.";
+
+    toast.error(message);
+  }
+};
+
+const handleUpdate: SubmitHandler<FieldFormValues> = async (values) => {
+  if (!editingField) return;
+
+  try {
     await updateFieldAsync({
       fieldId: editingField.id,
       label: values.label,
@@ -220,20 +238,65 @@ export default function FormBuilderPage({ params }: { params: Promise<{ id: stri
       placeholder: values.placeholder || null,
       isRequired: values.isRequired,
     });
-    setEditingField(null);
-  };
 
-  const handleDelete = async (fieldId: string) => {
+    toast.success("Field updated successfully!");
+
+    setEditingField(null);
+  } catch (error) {
+    console.error(error);
+
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "Failed to update field.";
+
+    toast.error(message);
+  }
+};
+
+const handleDelete = async (fieldId: string) => {
+  try {
     await deleteFieldAsync({ fieldId });
-  };
+
+    toast.success("Field deleted successfully!");
+  } catch (error) {
+    console.error(error);
+
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "Failed to delete field.";
+
+    toast.error(message);
+  }
+};
 
   const handlePublish = async () => {
   if (!form) return;
 
-  await updatePublishStatusAsync({
-    formId,
-    isPublished: !form.isPublished,
-  });
+  try {
+    await updatePublishStatusAsync({
+      formId,
+      isPublished: !form.isPublished,
+    });
+
+    toast.success(
+      form.isPublished
+        ? "Form unpublished successfully!"
+        : "Form published successfully!"
+    );
+  } catch (error) {
+    console.error(error);
+
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : form.isPublished
+        ? "Failed to unpublish form."
+        : "Failed to publish form.";
+
+    toast.error(message);
+  }
 };
 
 const handleDragEnd = async (event: DragEndEvent) => {
@@ -331,7 +394,7 @@ const handleDragEnd = async (event: DragEndEvent) => {
           <DialogHeader>
             <DialogTitle>Add field</DialogTitle>
           </DialogHeader>
-          {isCreateError && <p className="text-sm text-destructive">{createError?.message}</p>}
+
           <FieldForm
             defaultValues={DEFAULT_VALUES}
             onSubmit={handleCreate}

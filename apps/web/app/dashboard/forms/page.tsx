@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { Plus } from "lucide-react";
 import { ShareFormDialog } from "~/components/forms/share-form-dialog";
@@ -64,8 +65,8 @@ export default function FormsPage() {
     title: string;
   } | null>(null);
 
-  const { createFormAsync, isError, error } = useCreateForm();
-  const { deleteFormAsync } = useDeleteForm();
+  const { createFormAsync,isPending, isError, error } = useCreateForm();
+  const { deleteFormAsync, isPending: isDeleting } = useDeleteForm();
 
   const { forms, isLoading } = useListForms();
   const { forms: statsForms } = useListFormsWithResponseStats();
@@ -74,7 +75,6 @@ export default function FormsPage() {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
   } = useForm<CreateFormValues>({
     defaultValues: {
       title: "",
@@ -82,15 +82,28 @@ export default function FormsPage() {
     },
   });
 
-  const onSubmit: SubmitHandler<CreateFormValues> = async (values) => {
+const onSubmit: SubmitHandler<CreateFormValues> = async (values) => {
+  try {
     await createFormAsync({
       title: values.title,
       description: values.description || undefined,
     });
 
+    toast.success("Form created successfully!");
+
     reset();
     setOpen(false);
-  };
+  } catch (error) {
+    console.error(error);
+
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "Failed to create form.";
+
+    toast.error(message);
+  }
+};
 
   const responseStats = new Map(
     (statsForms ?? []).map((form) => [
@@ -394,6 +407,7 @@ export default function FormsPage() {
               <Button
                 type="button"
                 variant="outline"
+                disabled={isPending}
                 className="rounded-xl"
                 onClick={() => {
                   reset();
@@ -404,25 +418,23 @@ export default function FormsPage() {
               </Button>
 
               <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="
-                    rounded-xl
-                    bg-linear-to-r
-                    from-violet-600
-                    via-indigo-600
-                    to-cyan-500
-                    text-white
-                    transition-all
-                    duration-300
-                    hover:scale-[1.02]
-                    hover:shadow-lg
-                    hover:shadow-violet-500/20
-                  "
-                >
-                {isSubmitting
-                  ? "Creating..."
-                  : "Create Form"}
+                type="submit"
+                disabled={isPending}
+                className="
+                  rounded-xl
+                  bg-linear-to-r
+                  from-violet-600
+                  via-indigo-600
+                  to-cyan-500
+                  text-white
+                  transition-all
+                  duration-300
+                  hover:scale-[1.02]
+                  hover:shadow-lg
+                  hover:shadow-violet-500/20
+                "
+              >
+                {isPending ? "Creating Form..." : "Create Form"}
               </Button>
             </DialogFooter>
           </form>
@@ -454,6 +466,7 @@ export default function FormsPage() {
           <DialogFooter>
             <Button
               variant="outline"
+              disabled={isDeleting}
               className="rounded-xl"
               onClick={() => {
                 setDeleteOpen(false);
@@ -465,19 +478,33 @@ export default function FormsPage() {
 
             <Button
               variant="destructive"
+              disabled={isDeleting}
               className="rounded-xl"
               onClick={async () => {
                 if (!selectedForm) return;
 
-                await deleteFormAsync({
-                  formId: selectedForm.id,
-                });
+                try {
+                  await deleteFormAsync({
+                    formId: selectedForm.id,
+                  });
 
-                setDeleteOpen(false);
-                setSelectedForm(null);
+                  toast.success("Form deleted successfully!");
+
+                  setDeleteOpen(false);
+                  setSelectedForm(null);
+                } catch (error) {
+                  console.error(error);
+
+                  const message =
+                    error instanceof Error && error.message
+                      ? error.message
+                      : "Failed to delete form.";
+
+                  toast.error(message);
+                }
               }}
             >
-              Delete
+              {isDeleting ? "Deleting..." : "Delete"}
             </Button>
           </DialogFooter>
         </DialogContent>
