@@ -1,135 +1,255 @@
-# Turborepo starter
+# Formly
 
-This Turborepo starter is maintained by the Turborepo core team.
+A modern **SaaS Form Builder** built with **Next.js 16, TypeScript, tRPC, PostgreSQL, Drizzle ORM, and TurboRepo**.
 
-## Using this example
+Create, customize, publish, and analyze forms through a beautiful drag-and-drop interface with built-in analytics, authentication, and real-time dashboard insights.
 
-Run the following command:
+## 🌐 Live Demo
 
-```sh
-npx create-turbo@latest
-```
+**Website:** https://formly-web.vercel.app/
 
-## What's inside?
+## 📸 Preview
 
-This Turborepo includes the following packages/apps:
+> Add screenshots or GIFs here
 
-### Apps and Packages
+- Landing Page
+- Dashboard
+- Form Builder
+- Published Form
+- Analytics Dashboard
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+# ✨ Features
 
-### Utilities
+### 🔐 Authentication
 
-This Turborepo has some additional tools already setup for you:
+- Email & Password Authentication
+- JWT Authentication
+- HTTP-only Cookie Sessions
+- Protected Routes
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+### 📝 Form Builder
 
-### Build
+- Drag & Drop Form Builder
+- Dynamic Form Fields
+- Field Reordering
+- Persistent Field Order
+- Edit/Delete Fields
+- Publish & Unpublish Forms
 
-To build all apps and packages, run the following command:
+### 📊 Analytics
 
-```
-cd my-turborepo
+- Total Forms
+- Total Responses
+- Total Views
+- Response Rate
+- Recent Forms Dashboard
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
+### 🌍 Form Sharing
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
+- Public Form Links
+- Copy Share Link
+- View Tracking
+- Response Collection
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### ⚙️ Dashboard
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+- Recent Forms
+- Form Management
+- Delete Forms
+- Responsive UI
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+---
 
-### Develop
+# 🛠 Tech Stack
 
-To develop all apps and packages, run the following command:
+## Frontend
 
-```
-cd my-turborepo
+- Next.js 16
+- React
+- TypeScript
+- Tailwind CSS
+- React Hook Form
+- Shadcn UI
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+## Backend
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+- tRPC
+- Node.js
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## Database
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+- PostgreSQL
+- Drizzle ORM
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+## Authentication
 
-### Remote Caching
+- JWT
+- HTTP-only Cookies
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## Monorepo
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+- TurboRepo
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+## Development
 
-```
-cd my-turborepo
+- Docker
+- ESLint
+- Prettier
+- PNPM
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
+---
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+# 📂 Project Structure
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+formly/
+│
+├── apps/
+│   ├── web
+│   ├── api
+│   └── docs
+│
+├── packages/
+│   ├── database
+│   ├── trpc
+│   ├── logger
+│   ├── services
+│   ├── eslint-config
+│   └── typescript-config
+│
+└── turbo.json
 ```
 
-## Useful Links
+---
 
-Learn more about the power of Turborepo:
+# 🚀 Getting Started
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+## Clone Repository
+
+```bash
+git clone https://github.com/GunjanBasak007/Formly.git
+
+cd Formly
+```
+
+## Install Dependencies
+
+```bash
+pnpm install
+```
+
+## Configure Environment Variables
+
+Create a `.env` file in the root directory.
+
+```env
+DATABASE_URL=
+JWT_SECRET=
+```
+
+Add any other required environment variables.
+
+---
+
+## Start PostgreSQL (Docker)
+
+```bash
+docker compose up -d
+```
+
+---
+
+## Generate Database
+
+```bash
+pnpm db:generate
+```
+
+---
+
+## Run Migrations
+
+```bash
+pnpm db:migrate
+```
+
+---
+
+## Start Development Server
+
+```bash
+pnpm dev
+```
+
+---
+
+# 📦 Available Commands
+
+```bash
+pnpm dev              # Run all apps
+pnpm build            # Build project
+pnpm lint             # Lint code
+pnpm format           # Format code
+pnpm db:generate      # Generate Drizzle schema
+pnpm db:migrate       # Run migrations
+```
+
+---
+
+# 🏗 Architecture
+
+Formly follows a modern full-stack architecture powered by TurboRepo.
+
+```
+Next.js
+     │
+     ▼
+React UI
+     │
+     ▼
+tRPC
+     │
+     ▼
+Service Layer
+     │
+     ▼
+Drizzle ORM
+     │
+     ▼
+PostgreSQL
+```
+
+---
+
+# 🎯 Highlights
+
+- Modern SaaS architecture
+- TurboRepo Monorepo
+- End-to-end Type Safety
+- Secure Authentication
+- Responsive UI
+- Dashboard Analytics
+- Production Deployment
+
+---
+
+# 📈 Future Improvements
+
+- OAuth Login
+- AI-powered Form Generation
+- Form Templates
+- Email Notifications
+- CSV Export
+- Team Workspaces
+
+---
+
+# 👨‍💻 Author
+
+**Gunjan Basak**
+
+GitHub: https://github.com/GunjanBasak007
+
+LinkedIn: https://www.linkedin.com/in/gunjan-basak-2a7440338/
