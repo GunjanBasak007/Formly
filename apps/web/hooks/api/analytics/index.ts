@@ -21,7 +21,6 @@ export const useGetDashboardStats = () => {
   };
 };
 
-
 //For generating response over time
 
 export const useGetResponsesOverTime = () => {
@@ -43,7 +42,6 @@ export const useGetResponsesOverTime = () => {
     status,
   };
 };
-
 
 // For generating views over time
 export const useGetViewsOverTime = () => {

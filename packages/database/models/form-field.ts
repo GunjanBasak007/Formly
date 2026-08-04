@@ -1,44 +1,53 @@
 import {
-    pgTable,
-    uuid,
-    varchar,
-    timestamp,
-    boolean,
-    text,
-    pgEnum,
-    unique,
-    integer
+  pgTable,
+  uuid,
+  varchar,
+  timestamp,
+  boolean,
+  text,
+  pgEnum,
+  unique,
+  integer,
 } from "drizzle-orm/pg-core";
 import { usersTable } from "./user";
 import { formsTable } from "./form";
 
+export const fieldTypeEnum = pgEnum("field_type_enum", [
+  "TEXT",
+  "NUMBER",
+  "EMAIL",
+  "YES_NO",
+  "PASSWORD",
+]);
 
-export const fieldTypeEnum = pgEnum('field_type_enum', ['TEXT', 'NUMBER', 'EMAIL', 'YES_NO', 'PASSWORD'])
-
-export const formFieldsTable = pgTable("form_fields", {
+export const formFieldsTable = pgTable(
+  "form_fields",
+  {
     id: uuid("id").primaryKey().defaultRandom(),
 
-    label: varchar('label', { length: 100 }).notNull(),
-    labelKey: varchar('label_key', { length: 100 }).notNull(),
+    label: varchar("label", { length: 100 }).notNull(),
+    labelKey: varchar("label_key", { length: 100 }).notNull(),
 
-    description: text('description'),
+    description: text("description"),
 
-    placeholder: text('placeholder'),
+    placeholder: text("placeholder"),
 
-    isRequired: boolean('is_required').default(false).notNull(),
+    isRequired: boolean("is_required").default(false).notNull(),
 
     index: integer("index").default(0).notNull(),
 
-    type: fieldTypeEnum('type').notNull(),
+    type: fieldTypeEnum("type").notNull(),
 
-    formId: uuid('form_id').references(() => formsTable.id,{
-        onDelete: "cascade",
+    formId: uuid("form_id").references(() => formsTable.id, {
+      onDelete: "cascade",
     }),
 
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
-}, (table) => {
+  },
+  (table) => {
     return {
-        uniqueFormIdAndIndex: unique().on(table.formId, table.index)
-    }
-})
+      uniqueFormIdAndIndex: unique().on(table.formId, table.index),
+    };
+  },
+);

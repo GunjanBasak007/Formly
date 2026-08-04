@@ -12,40 +12,26 @@ import {
 export default function AnalyticsPage() {
   const { analytics, isLoading } = useGetDashboardStats();
 
-  const {
-    responsesOverTime,
-    isLoading: isLoadingResponses,
-  } = useGetResponsesOverTime();
+  const { responsesOverTime, isLoading: isLoadingResponses } = useGetResponsesOverTime();
 
-  const {
-    viewsOverTime,
-    isLoading: isLoadingViews,
-  } = useGetViewsOverTime();
+  const { viewsOverTime, isLoading: isLoadingViews } = useGetViewsOverTime();
 
-  if (
-    isLoading ||
-    isLoadingResponses ||
-    isLoadingViews ||
-    !analytics
-  ) {
+  if (isLoading || isLoadingResponses || isLoadingViews || !analytics) {
     return (
-  <div className="flex h-[70vh] items-center justify-center">
-    <p className="text-lg font-medium text-muted-foreground animate-pulse">
-      Loading analytics...
-    </p>
-  </div>
-  );
-}
+      <div className="flex h-[70vh] items-center justify-center">
+        <p className="text-lg font-medium text-muted-foreground animate-pulse">
+          Loading analytics...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="space-y-4 px-6 pt-6">
-        <SiteHeader
-          title="Analytics"
-          description="View your form performance"
-        />
+        <SiteHeader title="Analytics" description="View your form performance" />
 
-        <div className="h-1 w-28 rounded-full bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500" />
+        <div className="h-1 w-28 rounded-full bg-linear-to-r from-violet-600 via-indigo-600 to-cyan-500" />
       </div>
 
       <div className="space-y-10 px-6 pb-6">
@@ -58,10 +44,7 @@ export default function AnalyticsPage() {
           responseRate={analytics.responseRate}
         />
 
-        <Charts
-          responsesOverTime={responsesOverTime ?? []}
-          viewsOverTime={viewsOverTime ?? []}
-        />
+        <Charts responsesOverTime={responsesOverTime ?? []} viewsOverTime={viewsOverTime ?? []} />
       </div>
     </>
   );

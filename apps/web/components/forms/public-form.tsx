@@ -35,10 +35,7 @@ export function PublicForm({ form }: Props) {
     try {
       // Validate required fields
       for (const field of form.fields) {
-        if (
-          field.isRequired &&
-          !(values[field.id] ?? "").trim()
-        ) {
+        if (field.isRequired && !(values[field.id] ?? "").trim()) {
           toast.error(`${field.label} is required`);
           return;
         }
@@ -75,24 +72,15 @@ export function PublicForm({ form }: Props) {
               stroke="currentColor"
               strokeWidth={2.5}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
 
-          <h1 className="text-3xl font-bold">
-            Thank You!
-          </h1>
+          <h1 className="text-3xl font-bold">Thank You!</h1>
 
           <p className="mt-4 text-muted-foreground">
-            Your response for{" "}
-            <span className="font-semibold">
-              {form.title}
-            </span>{" "}
-            has been recorded successfully.
+            Your response for <span className="font-semibold">{form.title}</span> has been recorded
+            successfully.
           </p>
 
           <Button
@@ -112,22 +100,14 @@ export function PublicForm({ form }: Props) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
       <div className="rounded-3xl border bg-background p-8 shadow-sm">
-        <h1 className="text-4xl font-bold">
-          {form.title}
-        </h1>
+        <h1 className="text-4xl font-bold">{form.title}</h1>
 
-        {form.description && (
-          <p className="mt-3 text-muted-foreground">
-            {form.description}
-          </p>
-        )}
+        {form.description && <p className="mt-3 text-muted-foreground">{form.description}</p>}
 
         <div className="mt-10">
           {form.fields.length === 0 ? (
             <div className="rounded-2xl border border-dashed p-10 text-center">
-              <h2 className="text-xl font-semibold">
-                No questions available
-              </h2>
+              <h2 className="text-xl font-semibold">No questions available</h2>
 
               <p className="mt-2 text-muted-foreground">
                 This form has been published, but no questions have been added yet.
@@ -136,18 +116,11 @@ export function PublicForm({ form }: Props) {
           ) : (
             <div className="space-y-8">
               {form.fields.map((field) => (
-                <div
-                  key={field.id}
-                  className="space-y-3"
-                >
+                <div key={field.id} className="space-y-3">
                   <label className="font-medium">
                     {field.label}
 
-                    {field.isRequired && (
-                      <span className="ml-1 text-destructive">
-                        *
-                      </span>
-                    )}
+                    {field.isRequired && <span className="ml-1 text-destructive">*</span>}
                   </label>
 
                   <RenderPublicField
@@ -162,9 +135,7 @@ export function PublicForm({ form }: Props) {
                   />
 
                   {field.description && (
-                    <p className="text-sm text-muted-foreground">
-                      {field.description}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{field.description}</p>
                   )}
                 </div>
               ))}
@@ -174,9 +145,7 @@ export function PublicForm({ form }: Props) {
                 onClick={handleSubmit}
                 disabled={status === "pending"}
               >
-                {status === "pending"
-                  ? "Submitting..."
-                  : "Submit Form"}
+                {status === "pending" ? "Submitting..." : "Submit Form"}
               </Button>
             </div>
           )}

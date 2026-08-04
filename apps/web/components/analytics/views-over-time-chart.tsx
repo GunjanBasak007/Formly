@@ -8,13 +8,7 @@ import {
   YAxis,
 } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 
 import {
   Empty,
@@ -54,13 +48,9 @@ export function ViewsOverTimeChart({ data }: Props) {
     return (
       <Card className={cardClassName}>
         <CardHeader>
-          <CardTitle className="text-xl font-bold tracking-tight">
-            Views Over Time
-          </CardTitle>
+          <CardTitle className="text-xl font-bold tracking-tight">Views Over Time</CardTitle>
 
-          <CardDescription className="text-muted-foreground">
-            Last 30 days
-          </CardDescription>
+          <CardDescription className="text-muted-foreground">Last 30 days</CardDescription>
         </CardHeader>
 
         <CardContent className="h-[380px]">
@@ -72,9 +62,7 @@ export function ViewsOverTimeChart({ data }: Props) {
 
               <EmptyTitle>No views yet</EmptyTitle>
 
-              <EmptyDescription>
-                Share your published form to start tracking views
-              </EmptyDescription>
+              <EmptyDescription>Share your published form to start tracking views</EmptyDescription>
             </EmptyHeader>
           </Empty>
         </CardContent>
@@ -85,13 +73,9 @@ export function ViewsOverTimeChart({ data }: Props) {
   return (
     <Card className={cardClassName}>
       <CardHeader>
-        <CardTitle className="text-xl font-bold tracking-tight">
-          Views Over Time
-        </CardTitle>
+        <CardTitle className="text-xl font-bold tracking-tight">Views Over Time</CardTitle>
 
-        <CardDescription className="text-muted-foreground">
-          Last 30 days
-        </CardDescription>
+        <CardDescription className="text-muted-foreground">Last 30 days</CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -105,11 +89,7 @@ export function ViewsOverTimeChart({ data }: Props) {
               bottom: 10,
             }}
           >
-            <CartesianGrid
-              stroke="#ede9fe"
-              strokeDasharray="4 4"
-              vertical={false}
-            />
+            <CartesianGrid stroke="#ede9fe" strokeDasharray="4 4" vertical={false} />
 
             <XAxis
               dataKey="date"
@@ -123,12 +103,7 @@ export function ViewsOverTimeChart({ data }: Props) {
               }
             />
 
-            <YAxis
-              allowDecimals={false}
-              tickLine={false}
-              axisLine={false}
-              width={40}
-            />
+            <YAxis allowDecimals={false} tickLine={false} axisLine={false} width={40} />
 
             <Tooltip
               contentStyle={{

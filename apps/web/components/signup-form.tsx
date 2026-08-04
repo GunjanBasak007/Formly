@@ -41,34 +41,32 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
     },
   });
 
-const onSubmit: SubmitHandler<SignupFormValues> = async (values) => {
-  if (values.password !== values.confirmPassword) {
-    toast.error("Passwords do not match.");
-    return;
-  }
+  const onSubmit: SubmitHandler<SignupFormValues> = async (values) => {
+    if (values.password !== values.confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
 
-  try {
-    await createUserWithEmailAndPasswordAsync({
-      email: values.email,
-      fullName: values.name,
-      password: values.password,
-    });
+    try {
+      await createUserWithEmailAndPasswordAsync({
+        email: values.email,
+        fullName: values.name,
+        password: values.password,
+      });
 
-    toast.success("Account created successfully!");
+      toast.success("Account created successfully!");
 
-    router.replace("/dashboard");
-    router.refresh();
-  } catch (error) {
-    console.error(error);
+      router.replace("/dashboard");
+      router.refresh();
+    } catch (error) {
+      console.error(error);
 
-    const message =
-      error instanceof Error && error.message
-        ? error.message
-        : "Failed to create account.";
+      const message =
+        error instanceof Error && error.message ? error.message : "Failed to create account.";
 
-    toast.error(message);
-  }
-};
+      toast.error(message);
+    }
+  };
 
   return (
     <form
@@ -78,9 +76,7 @@ const onSubmit: SubmitHandler<SignupFormValues> = async (values) => {
     >
       <FieldGroup>
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-3xl font-extrabold tracking-tight">
-            Create your account
-          </h1>
+          <h1 className="text-3xl font-extrabold tracking-tight">Create your account</h1>
           <p className="text-sm text-balance text-muted-foreground">
             Create your Formly account to start building forms
           </p>
@@ -151,14 +147,14 @@ const onSubmit: SubmitHandler<SignupFormValues> = async (values) => {
             Sign up with GitHub
           </Button>
           <FieldDescription className="px-6 text-center">
-              Already have an account?{" "}
-              <Link
-                href="/login"
-                className="font-medium text-foreground transition-colors hover:text-violet-600"
-              >
-                Sign in
-              </Link>
-            </FieldDescription>
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="font-medium text-foreground transition-colors hover:text-violet-600"
+            >
+              Sign in
+            </Link>
+          </FieldDescription>
         </Field>
       </FieldGroup>
     </form>

@@ -1,11 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 interface StatsCardProps {
   title: string;
@@ -13,11 +8,7 @@ interface StatsCardProps {
   description?: string;
 }
 
-export function StatsCard({
-  title,
-  value,
-  description,
-}: StatsCardProps) {
+export function StatsCard({ title, value, description }: StatsCardProps) {
   return (
     <Card
       className="
@@ -37,9 +28,7 @@ export function StatsCard({
       "
     >
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
-          {title}
-        </CardTitle>
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
       </CardHeader>
 
       <CardContent>
@@ -49,9 +38,7 @@ export function StatsCard({
 
         {description && (
           <div className="mt-5 flex items-center justify-between border-t border-border/50 pt-4">
-            <p className="text-sm text-muted-foreground">
-              {description}
-            </p>
+            <p className="text-sm text-muted-foreground">{description}</p>
 
             <ArrowUpRight
               className="
