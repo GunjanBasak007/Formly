@@ -86,17 +86,6 @@ class FormService {
 
     const fields = rows.filter((r) => r.field?.id != null).map((r) => r.field!);
 
-    console.log("FIELDS:", JSON.stringify(fields, null, 2));
-    console.log("FORM:", {
-      id,
-      title,
-      description,
-      views,
-      isPublished,
-      createdAt,
-      updatedAt,
-    });
-
     return {
       id,
       title,
