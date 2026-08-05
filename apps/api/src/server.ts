@@ -35,10 +35,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/health", (req, res) => {
-  console.log("Health endpoint hit:", new Date().toISOString());
-
   return res.json({
-    message: "Streamyst server is healthy",
+    message: "Formly server is healthy",
     healthy: true,
   });
 });
