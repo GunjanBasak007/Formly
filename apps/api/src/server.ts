@@ -35,7 +35,12 @@ app.get("/", (req, res) => {
 });
 
 app.get("/health", (req, res) => {
-  return res.json({ message: "Streamyst server is healthy", healthy: true });
+  console.log("Health endpoint hit:", new Date().toISOString());
+
+  return res.json({
+    message: "Streamyst server is healthy",
+    healthy: true,
+  });
 });
 
 logger.debug(`openapi.json: ${env.BASE_URL}/openapi.json`);
